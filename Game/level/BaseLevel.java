@@ -41,7 +41,15 @@ public class BaseLevel {
         int totalWidth = cols * (brickWidth + spacing) - spacing;
         int startX = (1280 - totalWidth) / 2;
         int startY = 80;
-        Color[] colors = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.PINK};
+        // Color[] colors = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.PINK};
+        Color[] colors = {
+            new Color(0xF94144),
+            new Color(0xF3722C),
+            new Color(0xF8961E),
+            new Color(0xF9C74F),
+            new Color(0x90BE6D),
+            new Color(0x43AA8B)
+        };
 
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols; col++) {

@@ -40,10 +40,24 @@ public class GameView extends JPanel {
 
         for (Brick brick : bricks) {
             if (!brick.isDestroyed()) {
-                g.setColor(brick.getColor());
-                g.fillRect(brick.x, brick.y, brick.width, brick.height);
+                // g.setColor(brick.getColor());
+                // g.fillRect(brick.x, brick.y, brick.width, brick.height);
+                Graphics2D g2d = (Graphics2D) g;
+                Color base = brick.getColor();
+                // Tạo hiệu ứng gradient dọc: sáng ở trên, đậm ở dưới
+                GradientPaint gradient = new GradientPaint(
+                    brick.x, brick.y, base.brighter(),
+                    brick.x, brick.y + brick.height, base.darker()
+                );
+                g2d.setPaint(gradient);
+                // g2d.fillRect(brick.x, brick.y, brick.width, brick.height);
+                int arcWidth = 15;
+                int arcHeight = 15;
+                g2d.fillRoundRect(brick.x, brick.y, brick.width, brick.height, arcWidth, arcHeight);
+                g2d.setColor(new Color(0, 0, 0, 40)); // đen mờ 40/255 độ trong suốt
+                g2d.drawRoundRect(brick.x, brick.y, brick.width, brick.height, arcWidth, arcHeight);
                 g.setColor(Color.WHITE);
-                g.drawRect(brick.x, brick.y, brick.width, brick.height);
+                // g.drawRect(brick.x, brick.y, brick.width, brick.height);
             }
         }
     }
