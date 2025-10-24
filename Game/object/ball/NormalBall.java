@@ -41,7 +41,7 @@ public class NormalBall {
 
     public void reset() {
         x = 820; y = 400;
-        dx = 1.9; dy = 1.9;
+        dx = 4; dy = 4;
     }
 
     public int getX() { return (int)x; }

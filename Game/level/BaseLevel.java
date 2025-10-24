@@ -1,5 +1,6 @@
 package Game.level;
 
+import Game.menu.PlayerName;
 import Game.object.ball.NormalBall;
 import Game.object.brick.Brick;
 import Game.object.paddle.Paddle;
@@ -16,24 +17,39 @@ public class BaseLevel {
     private ArrayList<Brick> bricks;
     private Timer gameTimer;
     private Runnable onGameOver; // callback để báo cho GameManager
+    private PlayerName player;
+    private int score;
+    private String levelName;
 
     public BaseLevel() {
+        this.player = new PlayerName("Toan");
+        this.score = 0;
+        this.levelName = "Base";
         paddle = new Paddle(580, 710, 120, 15);
-        ball = new NormalBall(820, 400, 15, 1.9, 1.9);
+        ball = new NormalBall(820, 400, 15, 4, 4);
         initBricks();
-        gameView = new GameView(paddle, ball, bricks);
+        gameView = new GameView(paddle, ball, bricks, this);
 
         setupKeyControls();
         gameView.setFocusable(true);
         gameView.requestFocusInWindow();
 
-        gameTimer = new Timer(5, e -> update());
+        gameTimer = new Timer(15, e -> update());
+        
     }
+
+    
 
     /** Cho phép GameManager gán callback */
     public void setOnGameOver(Runnable onGameOver) {
         this.onGameOver = onGameOver;
     }
+
+    public PlayerName getPlayer() { return player; }
+    public int getScore() { return score; }
+    public String getLevelName() { return levelName; }
+
+    public void addScore(int points) { this.score += points; }
 
     private void initBricks() {
         bricks = new ArrayList<>();
@@ -43,12 +59,12 @@ public class BaseLevel {
         int startY = 80;
         // Color[] colors = {Color.RED, Color.ORANGE, Color.YELLOW, Color.GREEN, Color.CYAN, Color.PINK};
         Color[] colors = {
-            new Color(0xF94144),
-            new Color(0xF3722C),
-            new Color(0xF8961E),
-            new Color(0xF9C74F),
-            new Color(0x90BE6D),
-            new Color(0x43AA8B)
+            new Color(0xADD8E6),
+            new Color(0xB0CFDE),
+            new Color(0xC9DFEC),
+            new Color(0xD5D6EA),
+            new Color(0xE3E4FA),
+            new Color(0xDBE9FA)
         };
 
         for (int row = 0; row < rows; row++) {
