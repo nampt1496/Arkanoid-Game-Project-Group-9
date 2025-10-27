@@ -90,7 +90,7 @@ public class GameView extends JPanel {
             Brick brick = bricks.get(i);
             if (!brick.isDestroyed()) {
                 // Tính hàng (0–5)
-                int rowIndex = (brick.y - 80) / 33;
+                int rowIndex = (brick.y - 120) / 33;
                 if (rowIndex < 0) rowIndex = 0;
                 if (rowIndex > 5) rowIndex = 5;
 
