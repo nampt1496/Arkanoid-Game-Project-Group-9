@@ -25,12 +25,10 @@ public class GameView extends JPanel {
         this.baseLevel = baseLevel;
         setDoubleBuffered(true);
 
-        // 🔹 Load full sprite background (map.png)
         try {
             ImageIcon icon = new ImageIcon(getClass().getResource("/thegame/Picture/map.png"));
             Image fullImage = icon.getImage();
 
-            // Tạo BufferedImage từ Image (tránh lỗi ép kiểu)
             int w = fullImage.getWidth(null);
             int h = fullImage.getHeight(null);
             BufferedImage buffered = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
@@ -39,15 +37,12 @@ public class GameView extends JPanel {
             g2.dispose();
 
             
-            //BufferedImage cropped = buffered.getSubimage(232, 0, 224, 240);
-            BufferedImage cropped = buffered.getSubimage(233, 0, 223, 240);
+            BufferedImage cropped = buffered.getSubimage(0, 0, 223, 240);
 
-            //Phóng to để vừa khung game 
             bgImg = cropped.getScaledInstance(700, 750, Image.SCALE_SMOOTH);
 
         } catch (Exception e) {
             e.printStackTrace();
-            // Nếu lỗi, dùng nền đen thay thế
             bgImg = new BufferedImage(1280, 800, BufferedImage.TYPE_INT_RGB);
             Graphics2D g = ((BufferedImage) bgImg).createGraphics();
             g.setColor(Color.BLACK);
@@ -55,7 +50,6 @@ public class GameView extends JPanel {
             g.dispose();
         }
 
-        // 🔹 Load các ảnh còn lại
         paddleImg = new ImageIcon(getClass().getResource("/thegame/Picture/paddle.png")).getImage();
         ballImg = new ImageIcon(getClass().getResource("/thegame/Picture/ball.png")).getImage();
         startImg = new ImageIcon(getClass().getResource("/thegame/Picture/start.png")).getImage();
@@ -76,7 +70,6 @@ public class GameView extends JPanel {
         Graphics2D g2 = (Graphics2D) g;
         g2.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
-        // --- Vẽ nền game ---
         if (cachedBG == null) {
             cachedBG = createImage(getWidth(), getHeight());
             Graphics2D gbg = (Graphics2D) cachedBG.getGraphics();
@@ -85,7 +78,6 @@ public class GameView extends JPanel {
         }
         g2.drawImage(cachedBG, 0, 0, this);
 
-        // --- Vẽ bricks ---
         for (int i = 0; i < bricks.size(); i++) {
             Brick brick = bricks.get(i);
             if (!brick.isDestroyed()) {
@@ -103,18 +95,15 @@ public class GameView extends JPanel {
             }
         }
 
-        // --- Paddle & Ball ---
         g2.drawImage(paddleImg, paddle.getX(), paddle.getY(),
                 paddle.getWidth(), paddle.getHeight(), this);
         g2.drawImage(ballImg, ball.getX(), ball.getY(),
                 ball.getSize(), ball.getSize(), this);
 
-        // --- Vẽ HUD (đè lên, không chiếm layout) ---
         drawHUD(g2);
     }
 
     private void drawHUD(Graphics2D g2) {
-        //g2.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
         try {
             Font pixelFont = Font.createFont(
                 Font.TRUETYPE_FONT,
@@ -126,11 +115,10 @@ public class GameView extends JPanel {
             g2.setFont(new Font("Comic Sans MS", Font.BOLD, 20));
         }
 
-        // Vẽ 1 thanh mờ đen overlay ở trên cùng (đè lên nền)
         g2.setColor(new Color(0, 0, 0, 255));
         g2.fillRect(0, 0, getWidth(), 70);
 
-        // Vẽ text
+        
         g2.setColor(Color.CYAN);
         g2.drawString("Player: " + baseLevel.getPlayer().getName(), 25, 30);
 

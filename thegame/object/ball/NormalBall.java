@@ -1,6 +1,7 @@
 package thegame.object.ball;
 
 import java.awt.*;
+import thegame.animation.CollideAnimation;
 import thegame.object.paddle.Paddle;
 
 public class NormalBall {
@@ -16,11 +17,18 @@ public class NormalBall {
     public void move(int panelWidth, int panelHeight) {
         x += dx;
         y += dy;
-        if (x <= 25 || x >= panelWidth - SIZE - 25) dx = -dx;
-        if (y <= 90) dy = -dy;
+        if (x <= 25 || x >= panelWidth - SIZE - 25) {
+            dx = -dx;
+            CollideAnimation.playBallWall();
+        }
+        if (y <= 90) {
+            dy = -dy;
+            CollideAnimation.playBallWall();
+        }
     }
 
     public void bounceOnPaddle(Paddle paddle) {
+        CollideAnimation.playBallPaddle();
         dy = -Math.abs(dy);
         double hitPos = (x + SIZE / 2.0 - paddle.getX()) / paddle.getWidth() - 0.5;
         dx += hitPos * 2.0;
@@ -29,6 +37,8 @@ public class NormalBall {
 
     public void bounceOnBrick() {
         dy = -dy;
+        CollideAnimation.playBrickBreak();
+        CollideAnimation.playAddScore();
     }
 
     public boolean isOutOfBounds(int height) {

@@ -4,6 +4,7 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
+import thegame.animation.CollideAnimation;
 import thegame.menu.PlayerName;
 import thegame.object.ball.NormalBall;
 import thegame.object.brick.Brick;
@@ -26,7 +27,7 @@ public class BaseLevel {
         this.score = 0;
         this.levelName = "Base";
         paddle = new Paddle(310, 700, 120, 15);
-        ball = new NormalBall(390, 400, 15, 4, 4);
+        ball = new NormalBall(390, 400, 15, 5, 5);
         initBricks();
         gameView = new GameView(paddle, ball, bricks, this);
 
@@ -78,6 +79,7 @@ public class BaseLevel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 paddle.setLeftPressed(true);
+                CollideAnimation.playPaddleMove();
             }
         });
 
@@ -94,6 +96,7 @@ public class BaseLevel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 paddle.setRightPressed(true);
+                CollideAnimation.playPaddleMove();
             }
         });
 
