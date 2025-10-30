@@ -65,6 +65,7 @@ public class GameManager extends JFrame {
 
     public void showVictoryMenu(String playerName, int point) {
         bgSound.stop();
+        bgSound.play("/thegame/sound/source/victory.wav");
         setContentPane(new thegame.menu.VictoryMenu(this, playerName, point));
         revalidate();
         repaint();

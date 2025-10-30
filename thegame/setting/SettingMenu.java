@@ -20,7 +20,7 @@ public class SettingMenu extends JPanel {
         , "Chon mau nay thi thoi thoat game luon di"
     };
     private final String[] musics = {
-        "Mac dinh (nhe nhang, chill chill)", "Nhac cua Jack", "Nhac cua Son Tung MTP"
+        "Mac dinh (nhe nhang, chill chill)", "Giai dieu tinh yeu (Remix)", "SummerTime-K391 (remix)"
     };
 
     public SettingMenu(GameManager manager, boolean fromPause, Image bgImage) {
@@ -31,7 +31,7 @@ public class SettingMenu extends JPanel {
         Font tmp;
         try {
             tmp = Font.createFont(Font.TRUETYPE_FONT,
-                    getClass().getResourceAsStream("/thegame/font/pixel2.otf")).deriveFont(18f);
+                    getClass().getResourceAsStream("/thegame/font/pixel2.otf")).deriveFont(22f);
         } catch (Exception e) {
             tmp = new Font("Consolas", Font.BOLD, 20);
         }
@@ -75,7 +75,7 @@ public class SettingMenu extends JPanel {
     private JLabel createTitle(String text) {
         JLabel label = new JLabel(text, SwingConstants.CENTER);
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        label.setFont(pixelFont.deriveFont(24f));
+        label.setFont(pixelFont.deriveFont(50f));
         label.setForeground(Color.CYAN);
         return label;
     }
@@ -112,8 +112,8 @@ public class SettingMenu extends JPanel {
             }
             else {
                 String track = switch (index) {
-                    case 1 -> "/thegame/sound/source/sb1.wav";
-                    case 2 -> "/thegame/sound/source/chill.wav";
+                    case 1 -> "/thegame/sound/source/gdty.wav";
+                    case 2 -> "/thegame/sound/source/summertime.wav";
                     default -> "/thegame/sound/source/bg.wav";
                 };
                 bgSound.stop();

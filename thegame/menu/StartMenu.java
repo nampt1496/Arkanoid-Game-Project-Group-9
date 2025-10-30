@@ -9,6 +9,7 @@ public class StartMenu extends JPanel {
     private final GameManager manager;
     private Image startImg;
     private JTextField nameField;
+    private Font arcadeFont; 
 
     public StartMenu(GameManager manager) {
         this.manager = manager;
@@ -16,8 +17,6 @@ public class StartMenu extends JPanel {
 
         bgSound.play("/thegame/sound/source/intro2.wav");
 
-
-        Font arcadeFont;
         try {
             arcadeFont = Font.createFont(Font.TRUETYPE_FONT,
                     getClass().getResourceAsStream("/thegame/font/pixel2.otf"));
@@ -26,14 +25,12 @@ public class StartMenu extends JPanel {
             arcadeFont = new Font("Arial", Font.BOLD, 26);
         }
 
-        // --- Nhãn nhập tên ---
         JLabel nameLabel = new JLabel("ENTER YOUR NAME:");
         nameLabel.setFont(arcadeFont);
         nameLabel.setForeground(Color.WHITE);
         nameLabel.setBounds(220, 350, 350, 40);
         add(nameLabel);
 
-        // --- Ô nhập tên ---
         nameField = new JTextField();
         nameField.setFont(arcadeFont.deriveFont(Font.PLAIN, 22f));
         nameField.setForeground(Color.YELLOW);
@@ -43,21 +40,25 @@ public class StartMenu extends JPanel {
         nameField.setBounds(220, 390, 260, 40);
         add(nameField);
 
-        // --- Nút Start ---
         JButton startButton = createInvisibleButton(190, 465, 310, 60);
         startButton.addActionListener(e -> {
             String playerName = nameField.getText().trim();
+
             if (playerName.isEmpty()) {
-                JOptionPane.showMessageDialog(this, "Please enter your name!");
+                showArcadeMessage("Please enter your name!");
                 return;
             }
-            manager.startGame(playerName); // truyền tên người chơi sang GameManager
-        });
 
+            if (playerName.length() > 7) {
+                showArcadeMessage("Name must be under 10 characters!");
+                return;
+            }
+
+            manager.startGame(playerName);
+        });
         add(startButton);
 
         JButton settingButton = createInvisibleButton(190, 560, 310, 60);
-        //settingButton.addActionListener(e -> manager.showSetting());
         settingButton.addActionListener(e -> manager.showSetting(false));
         add(settingButton);
 
@@ -66,6 +67,19 @@ public class StartMenu extends JPanel {
         add(exitButton);
 
         startImg = new ImageIcon(getClass().getResource("/thegame/Picture/start.png")).getImage();
+    }
+
+    private void showArcadeMessage(String message) {
+        JLabel label = new JLabel(message, SwingConstants.CENTER);
+        label.setFont(arcadeFont.deriveFont(Font.PLAIN, 22f));
+        label.setForeground(Color.RED);
+
+        JOptionPane.showMessageDialog(
+                this,
+                label,
+                "NOTICE",
+                JOptionPane.PLAIN_MESSAGE
+        );
     }
 
     private JButton createInvisibleButton(int x, int y, int w, int h) {
@@ -83,5 +97,5 @@ public class StartMenu extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(startImg, 0, 0, getWidth(), getHeight(), this);
-    }    
+    }
 }
