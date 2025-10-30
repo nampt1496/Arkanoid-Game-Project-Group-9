@@ -4,11 +4,13 @@ import javax.swing.*;
 import thegame.animation.ClickAnimation;
 import thegame.level.BaseLevel;
 import thegame.menu.StartMenu;
+import thegame.menu.OverMenu;
 import thegame.sound.bgSound;
+import thegame.gameplay.GameState;
 
 public class GameManager extends JFrame {
     private BaseLevel currentLevel;
-    
+    private final GameState gameState = new GameState();
     public GameManager() {
 
         UIManager.put("Button.focusInputMap", new javax.swing.InputMap());
@@ -26,26 +28,14 @@ public class GameManager extends JFrame {
 
     public void startGame() {
         bgSound.stop();
+        gameState.setState(GameState.State.RUNNING);
         currentLevel = new BaseLevel(); // sau này có các level mới có thể điều chỉnh.
         bgSound.play("/thegame/sound/source/bg.wav");
         // gán callback khi game over
         currentLevel.setOnGameOver(() -> {
             bgSound.stop();
             bgSound.playSequential("/thegame/sound/source/gover.wav", "/thegame/sound/source/female.wav");
-            int option = JOptionPane.showConfirmDialog(
-                    this,
-                    "Mày đã thua, chơi lại ko em?",
-                    "Game Over",
-                    JOptionPane.YES_NO_OPTION
-            );
-            ClickAnimation.playClickSound();
-            if (option == JOptionPane.YES_OPTION) {
-                currentLevel.reset();
-                currentLevel.start();
-                bgSound.play("/thegame/sound/source/bg.wav");
-            } else {
-                System.exit(0);
-            }
+            gameOver();
         });
 
         setContentPane(currentLevel.getView());
@@ -53,5 +43,28 @@ public class GameManager extends JFrame {
         repaint();
         currentLevel.getView().requestFocusInWindow();
         currentLevel.start();
+    }
+
+    private void gameOver() {
+        gameState.setState(GameState.State.GAME_OVER);
+        ClickAnimation.playClickSound();
+
+        // Hiển thị giao diện Game Over Menu
+        setContentPane(new OverMenu(this));
+        revalidate();
+        repaint();
+    }
+
+    public void retryGame() {
+        bgSound.stop();
+        bgSound.play("/thegame/sound/source/bg.wav");
+        startGame();
+    }
+
+    public void backToMainMenu() {
+        bgSound.stop();
+        setContentPane(new StartMenu(this));
+        revalidate();
+        repaint();
     }
 }
