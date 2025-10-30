@@ -1,13 +1,13 @@
 package thegame.renderer;
 
 import java.awt.*;
-import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import javax.swing.*;
 import thegame.level.BaseLevel;
 import thegame.object.ball.NormalBall;
 import thegame.object.brick.Brick;
 import thegame.object.paddle.Paddle;
+import thegame.setting.SettingManager;
 
 public class GameView extends JPanel {
     private Paddle paddle;
@@ -25,30 +25,7 @@ public class GameView extends JPanel {
         this.baseLevel = baseLevel;
         setDoubleBuffered(true);
 
-        try {
-            ImageIcon icon = new ImageIcon(getClass().getResource("/thegame/Picture/map.png"));
-            Image fullImage = icon.getImage();
-
-            int w = fullImage.getWidth(null);
-            int h = fullImage.getHeight(null);
-            BufferedImage buffered = new BufferedImage(w, h, BufferedImage.TYPE_INT_ARGB);
-            Graphics2D g2 = buffered.createGraphics();
-            g2.drawImage(fullImage, 0, 0, null);
-            g2.dispose();
-
-            
-            BufferedImage cropped = buffered.getSubimage(0, 0, 223, 240);
-            //BufferedImage cropped = buffered.getSubimage(233, 0, 223, 240);
-            bgImg = cropped.getScaledInstance(700, 750, Image.SCALE_SMOOTH);
-
-        } catch (Exception e) {
-            e.printStackTrace();
-            bgImg = new BufferedImage(1280, 800, BufferedImage.TYPE_INT_RGB);
-            Graphics2D g = ((BufferedImage) bgImg).createGraphics();
-            g.setColor(Color.BLACK);
-            g.fillRect(0, 0, 1280, 800);
-            g.dispose();
-        }
+        bgImg = SettingManager.getBackgroundImage(700, 750);
 
         paddleImg = new ImageIcon(getClass().getResource("/thegame/Picture/paddle.png")).getImage();
         ballImg = new ImageIcon(getClass().getResource("/thegame/Picture/ball.png")).getImage();
@@ -66,6 +43,20 @@ public class GameView extends JPanel {
         this.bricks = bricks;
     }
 
+    public Image getBackgroundImage() {
+        return bgImg;
+    }
+
+    public void refreshBackground() {
+        this.bgImg = SettingManager.getBackgroundImage(700, 750);
+        this.cachedBG = null; 
+    }
+
+    public void setBackgroundImage(Image newBg) {
+        this.bgImg = newBg;
+        this.cachedBG = null; 
+        repaint();
+    }
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);

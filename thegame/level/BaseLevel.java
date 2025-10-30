@@ -183,7 +183,7 @@ public class BaseLevel {
         gameView.repaint();
     }
 
-    public JPanel getView() {
+    public GameView getView() {
         return gameView;
     }
 

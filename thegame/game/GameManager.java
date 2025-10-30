@@ -1,10 +1,13 @@
 package thegame.game;
 
+import java.awt.Image;
 import javax.swing.*;
 import thegame.gameplay.GameState;
 import thegame.level.BaseLevel;
 import thegame.menu.OverMenu;
 import thegame.menu.StartMenu;
+import thegame.setting.SettingManager;
+import thegame.setting.SettingMenu;
 import thegame.sound.bgSound;
 
 public class GameManager extends JFrame {
@@ -28,7 +31,7 @@ public class GameManager extends JFrame {
         bgSound.stop();
         gameState.setState(GameState.State.RUNNING);
         currentLevel = new BaseLevel(); // sau này có các level mới có thể điều chỉnh.
-        bgSound.play("/thegame/sound/source/bg.wav");
+        bgSound.play(SettingManager.getMusicPath());
         currentLevel.setOnGameOver(() -> {
             bgSound.stop();
             bgSound.playSequential("/thegame/sound/source/gover.wav", "/thegame/sound/source/female.wav");
@@ -80,6 +83,39 @@ public class GameManager extends JFrame {
             repaint();
             currentLevel.resumeGame();
         }
+    }
+
+    public void showSetting(boolean fromPause) {
+        thegame.sound.bgSound.pause();
+
+        Image bgImage = null;
+        try {
+            ImageIcon icon = new ImageIcon(getClass().getResource("/thegame/Picture/map.png"));
+            Image fullImage = icon.getImage();
+
+            int x = 0, y = 0, w = 223, h = 240;
+            java.awt.image.BufferedImage buffered = new java.awt.image.BufferedImage(
+                    fullImage.getWidth(null),
+                    fullImage.getHeight(null),
+                    java.awt.image.BufferedImage.TYPE_INT_ARGB
+            );
+            java.awt.Graphics2D g2 = buffered.createGraphics();
+            g2.drawImage(fullImage, 0, 0, null);
+            g2.dispose();
+
+            java.awt.image.BufferedImage cropped = buffered.getSubimage(x, y, w, h);
+            bgImage = cropped.getScaledInstance(700, 750, Image.SCALE_SMOOTH);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        setContentPane(new SettingMenu(this, fromPause, bgImage));
+        revalidate();
+        repaint();
+    }
+
+    public BaseLevel getCurrentLevel() {
+        return currentLevel;
     }
 
     public void backToMainMenu() {

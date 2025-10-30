@@ -3,7 +3,6 @@ package thegame.menu;
 import java.awt.*;
 import javax.swing.*;
 import thegame.game.GameManager;
-import thegame.setting.GraphicSetting;
 
 public class PauseMenu extends JPanel {
     private final GameManager manager;
@@ -16,17 +15,15 @@ public class PauseMenu extends JPanel {
             resumeButton.addActionListener(e -> manager.resumeGame());
             add(resumeButton);
 
-            // Nút Setting
             JButton settingButton = createInvisibleButton(190, 540, 310, 60);
             //settingButton.addActionListener(e -> manager.showSetting());
+            settingButton.addActionListener(e -> manager.showSetting(true)); // ở PauseMenu
             add(settingButton);
 
-            //  Nút Exit
             JButton exitButton = createInvisibleButton(270, 645, 150, 60);
             exitButton.addActionListener(e -> System.exit(0));
             add(exitButton);
 
-            // Ảnh nền
             pauseImg = new ImageIcon(getClass().getResource("/thegame/Picture/pause.png")).getImage();
     }
 

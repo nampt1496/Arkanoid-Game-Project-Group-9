@@ -22,6 +22,7 @@ public class StartMenu extends JPanel {
 
         JButton settingButton = createInvisibleButton(190, 560, 310, 60);
         //settingButton.addActionListener(e -> manager.showSetting());
+        settingButton.addActionListener(e -> manager.showSetting(false));
         add(settingButton);
 
         JButton exitButton = createInvisibleButton(270, 655, 150, 60);
