@@ -4,7 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 import thegame.game.GameManager;
 import thegame.sound.bgSound;
-import thegame.setting.GraphicSetting;
 
 public class StartMenu extends JPanel {
     private final GameManager manager;
@@ -21,12 +20,10 @@ public class StartMenu extends JPanel {
         startButton.addActionListener(e -> manager.startGame());
         add(startButton);
 
-        // --- Nút Setting ---
         JButton settingButton = createInvisibleButton(190, 560, 310, 60);
         //settingButton.addActionListener(e -> manager.showSetting());
         add(settingButton);
 
-        // --- Nút Exit ---
         JButton exitButton = createInvisibleButton(270, 655, 150, 60);
         exitButton.addActionListener(e -> System.exit(0));
         add(exitButton);

@@ -49,11 +49,6 @@ public class NormalBall {
         return new Rectangle((int)x, (int)y, SIZE, SIZE);
     }
 
-    public void reset() {
-        x = 390; y = 400;
-        dx = 4; dy = 4;
-    }
-
     public int getX() { return (int)x; }
     public int getY() { return (int)y; }
     public int getSize() { return SIZE; }

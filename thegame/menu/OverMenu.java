@@ -19,7 +19,6 @@ public class OverMenu extends JPanel {
         this.point = point;
         setLayout(null);
 
-        // Bắt sự kiện click chuột để quay lại StartMenu
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -28,7 +27,6 @@ public class OverMenu extends JPanel {
             }
         });
 
-        // Ảnh nền Game Over
         overImg = new ImageIcon(getClass().getResource("/thegame/Picture/gameOver.png")).getImage();
     }
 

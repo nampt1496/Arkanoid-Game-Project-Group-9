@@ -4,12 +4,15 @@ import java.awt.*;
 import java.awt.event.*;
 import java.util.ArrayList;
 import javax.swing.*;
+import thegame.animation.ClickAnimation;
 import thegame.animation.CollideAnimation;
+import thegame.gameplay.Point;
 import thegame.menu.PlayerName;
 import thegame.object.ball.NormalBall;
 import thegame.object.brick.Brick;
 import thegame.object.paddle.Paddle;
 import thegame.renderer.GameView;
+import thegame.sound.bgSound;
 
 public class BaseLevel {
     private GameView gameView;
@@ -21,15 +24,14 @@ public class BaseLevel {
     private Runnable onVictory;
     private Runnable onPause;
     private PlayerName player;
-    private int score;
+    private Point point = new Point();
     private String levelName;
 
     public BaseLevel() {
         this.player = new PlayerName("Toan");
-        this.score = 0;
         this.levelName = "Base";
         paddle = new Paddle(310, 700, 120, 15);
-        ball = new NormalBall(390, 400, 15, 5, 5);
+        ball = new NormalBall(390, 400, 15, 2, 2);
         initBricks();
         gameView = new GameView(paddle, ball, bricks, this);
 
@@ -37,13 +39,10 @@ public class BaseLevel {
         gameView.setFocusable(true);
         gameView.requestFocusInWindow();
 
-        gameTimer = new Timer(15, e -> update());
+        gameTimer = new Timer(5, e -> update());
         
     }
 
-    
-
-    /** Cho phép GameManager gán callback */
     public void setOnGameOver(Runnable onGameOver) {
         this.onGameOver = onGameOver;
     }
@@ -55,10 +54,9 @@ public class BaseLevel {
         this.onPause = onPause;
     }
     public PlayerName getPlayer() { return player; }
-    public int getScore() { return score; }
     public String getLevelName() { return levelName; }
-
-    public void addScore(int points) { this.score += points; }
+    public void addScore(int value) { point.addScore(value); }
+    public int getScore() { return point.getScore(); }
 
     private void initBricks() {
         bricks = new ArrayList<>();
@@ -115,28 +113,30 @@ public class BaseLevel {
                 paddle.setRightPressed(false);
             }
         });
-        //  Tạm dừng game (phím P)
-        im.put(KeyStroke.getKeyStroke("pressed P"), "pauseGame");
+
+        im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "pauseGame");
         am.put("pauseGame", new AbstractAction() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                ClickAnimation.playClickSound();
                 pauseGame();
             }
         });
     }
-    // Dừng game khi nhấn P
+
     private void pauseGame() {
         if (gameTimer.isRunning()) {
+            bgSound.pause();
             gameTimer.stop();
             if (onPause != null) onPause.run();
         }
     }
 
-    // Tiếp tục game (resume)
     public void resumeGame() {
         if (!gameTimer.isRunning()) {
             gameView.requestFocusInWindow();
             gameTimer.start();
+            bgSound.resume();
         }
     }
 
@@ -155,16 +155,19 @@ public class BaseLevel {
             if (!brick.isDestroyed() && ballRect.intersects(brick.getBounds())) {
                 brick.hit();
                 ball.bounceOnBrick();
+                if ("Toan".equals(player.getName())) {
+                    addScore(100);
+                } else {
+                    addScore(10);
+                }
                 break;
             }
         }
 
-        // Gọi callback khi game over
         if (ball.isOutOfBounds(gameView.getHeight())) {
             gameTimer.stop();
             if (onGameOver != null) onGameOver.run();
         }
-        // --- Điều kiện thắng ---
         boolean allDestroyed = true;
         for (Brick brick : bricks) {
             if (!brick.isDestroyed()) {
@@ -190,13 +193,4 @@ public class BaseLevel {
         gameTimer.start();
     }
 
-    public void reset() {
-        paddle.reset();
-        ball.reset();
-        paddle.setLeftPressed(false);
-        paddle.setRightPressed(false);
-        initBricks();
-        gameView.setBricks(bricks);
-        gameView.repaint();
-    }
 }

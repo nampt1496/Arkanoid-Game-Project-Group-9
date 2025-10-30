@@ -38,7 +38,7 @@ public class GameView extends JPanel {
 
             
             BufferedImage cropped = buffered.getSubimage(0, 0, 223, 240);
-
+            //BufferedImage cropped = buffered.getSubimage(233, 0, 223, 240);
             bgImg = cropped.getScaledInstance(700, 750, Image.SCALE_SMOOTH);
 
         } catch (Exception e) {
@@ -83,7 +83,6 @@ public class GameView extends JPanel {
         for (int i = 0; i < bricks.size(); i++) {
             Brick brick = bricks.get(i);
             if (!brick.isDestroyed()) {
-                // Tính hàng (0–5)
                 int rowIndex = (brick.y - 120) / 33;
                 if (rowIndex < 0) rowIndex = 0;
                 if (rowIndex > 5) rowIndex = 5;

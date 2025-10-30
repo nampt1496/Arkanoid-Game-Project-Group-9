@@ -5,7 +5,7 @@ import java.awt.*;
 public class Paddle {
     private int x, y, width, height;
     private boolean leftPressed, rightPressed;
-    private final int SPEED = 11;
+    private final int SPEED = 8;
 
     public Paddle(int x, int y, int width, int height) {
         this.x = x; this.y = y;
@@ -19,11 +19,6 @@ public class Paddle {
 
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
-    }
-
-    public void reset() {
-        x = 310;
-        y = 700;
     }
 
     public void setLeftPressed(boolean b) { leftPressed = b; }
