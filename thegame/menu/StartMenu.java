@@ -8,6 +8,7 @@ import thegame.sound.bgSound;
 public class StartMenu extends JPanel {
     private final GameManager manager;
     private Image startImg;
+    private JTextField nameField;
 
     public StartMenu(GameManager manager) {
         this.manager = manager;
@@ -16,8 +17,43 @@ public class StartMenu extends JPanel {
         bgSound.play("/thegame/sound/source/intro2.wav");
 
 
+        Font arcadeFont;
+        try {
+            arcadeFont = Font.createFont(Font.TRUETYPE_FONT,
+                    getClass().getResourceAsStream("/thegame/font/pixel2.otf"));
+            arcadeFont = arcadeFont.deriveFont(Font.PLAIN, 26f);
+        } catch (Exception e) {
+            arcadeFont = new Font("Arial", Font.BOLD, 26);
+        }
+
+        // --- Nhãn nhập tên ---
+        JLabel nameLabel = new JLabel("ENTER YOUR NAME:");
+        nameLabel.setFont(arcadeFont);
+        nameLabel.setForeground(Color.WHITE);
+        nameLabel.setBounds(220, 350, 350, 40);
+        add(nameLabel);
+
+        // --- Ô nhập tên ---
+        nameField = new JTextField();
+        nameField.setFont(arcadeFont.deriveFont(Font.PLAIN, 22f));
+        nameField.setForeground(Color.YELLOW);
+        nameField.setBackground(Color.BLACK);
+        nameField.setCaretColor(Color.WHITE);
+        nameField.setHorizontalAlignment(JTextField.CENTER);
+        nameField.setBounds(220, 390, 260, 40);
+        add(nameField);
+
+        // --- Nút Start ---
         JButton startButton = createInvisibleButton(190, 465, 310, 60);
-        startButton.addActionListener(e -> manager.startGame());
+        startButton.addActionListener(e -> {
+            String playerName = nameField.getText().trim();
+            if (playerName.isEmpty()) {
+                JOptionPane.showMessageDialog(this, "Please enter your name!");
+                return;
+            }
+            manager.startGame(playerName); // truyền tên người chơi sang GameManager
+        });
+
         add(startButton);
 
         JButton settingButton = createInvisibleButton(190, 560, 310, 60);

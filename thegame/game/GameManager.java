@@ -24,11 +24,12 @@ public class GameManager extends JFrame {
         
     }
 
-    public void startGame() {
+    public void startGame(String playerName) {
         bgSound.stop();
         gameState.setState(GameState.State.RUNNING);
-        currentLevel = new BaseLevel(); // sau này có các level mới có thể điều chỉnh.
+        currentLevel = new BaseLevel(playerName); // sau này có các level mới có thể điều chỉnh.
         bgSound.play("/thegame/sound/source/bg.wav");
+
         currentLevel.setOnGameOver(() -> {
             bgSound.stop();
             bgSound.playSequential("/thegame/sound/source/gover.wav", "/thegame/sound/source/female.wav");
