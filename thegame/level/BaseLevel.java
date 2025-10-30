@@ -27,8 +27,8 @@ public class BaseLevel {
     private Point point = new Point();
     private String levelName;
 
-    public BaseLevel() {
-        this.player = new PlayerName("Toan");
+    public BaseLevel(String playerName) {
+        this.player = new PlayerName(playerName);
         this.levelName = "Base";
         paddle = new Paddle(310, 700, 120, 15);
         ball = new NormalBall(390, 400, 15, 2, 2);

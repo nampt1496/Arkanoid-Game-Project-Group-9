@@ -27,10 +27,11 @@ public class GameManager extends JFrame {
         
     }
 
-    public void startGame() {
+    public void startGame(String playerName) {
         bgSound.stop();
         gameState.setState(GameState.State.RUNNING);
-        currentLevel = new BaseLevel(); // sau này có các level mới có thể điều chỉnh.
+
+        currentLevel = new BaseLevel(playerName); // sau này có các level mới có thể điều chỉnh.
         bgSound.play(SettingManager.getMusicPath());
         currentLevel.setOnGameOver(() -> {
             bgSound.stop();
