@@ -18,6 +18,8 @@ public class BaseLevel {
     private ArrayList<Brick> bricks;
     private Timer gameTimer;
     private Runnable onGameOver; // callback để báo cho GameManager
+
+    private Runnable onVictory;
     private PlayerName player;
     private int score;
     private String levelName;
@@ -46,6 +48,9 @@ public class BaseLevel {
         this.onGameOver = onGameOver;
     }
 
+    public void setOnVictory(Runnable onVictory) {
+        this.onVictory = onVictory;
+    }
     public PlayerName getPlayer() { return player; }
     public int getScore() { return score; }
     public String getLevelName() { return levelName; }
@@ -132,6 +137,18 @@ public class BaseLevel {
         if (ball.isOutOfBounds(gameView.getHeight())) {
             gameTimer.stop();
             if (onGameOver != null) onGameOver.run();
+        }
+        // --- Điều kiện thắng ---
+        boolean allDestroyed = true;
+        for (Brick brick : bricks) {
+            if (!brick.isDestroyed()) {
+                allDestroyed = false;
+                break;
+            }
+        }
+        if (allDestroyed) {
+            gameTimer.stop();
+            if (onVictory != null) onVictory.run();
         }
 
         gameView.repaint();

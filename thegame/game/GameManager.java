@@ -35,7 +35,15 @@ public class GameManager extends JFrame {
         currentLevel.setOnGameOver(() -> {
             bgSound.stop();
             bgSound.playSequential("/thegame/sound/source/gover.wav", "/thegame/sound/source/female.wav");
-            gameOver();
+            String name = currentLevel.getPlayer().getName();
+            int point = currentLevel.getScore();
+            gameOver(name, point);
+        });
+
+        currentLevel.setOnVictory(() -> {
+            String name = currentLevel.getPlayer().getName();
+            int point = currentLevel.getScore();
+            showVictoryMenu(name, point);
         });
 
         setContentPane(currentLevel.getView());
@@ -45,12 +53,19 @@ public class GameManager extends JFrame {
         currentLevel.start();
     }
 
-    private void gameOver() {
+    private void gameOver(String playerName, int point) {
         gameState.setState(GameState.State.GAME_OVER);
         ClickAnimation.playClickSound();
 
         // Hiển thị giao diện Game Over Menu
-        setContentPane(new OverMenu(this));
+        setContentPane(new OverMenu(this, playerName, point));
+        revalidate();
+        repaint();
+    }
+
+    public void showVictoryMenu(String playerName, int point) {
+        bgSound.stop();
+        setContentPane(new thegame.menu.VictoryMenu(this, playerName, point));
         revalidate();
         repaint();
     }

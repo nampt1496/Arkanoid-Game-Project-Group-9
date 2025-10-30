@@ -13,7 +13,7 @@ public class GameView extends JPanel {
     private Paddle paddle;
     private NormalBall ball;
     private ArrayList<Brick> bricks;
-    private Image bgImg, paddleImg, ballImg, startImg, overImg;
+    private Image bgImg, paddleImg, ballImg, startImg, overImg, victoryImg;
     private BaseLevel baseLevel;
     private Image cachedBG;
     private Image[] brickImgs = new Image[6];
@@ -54,6 +54,7 @@ public class GameView extends JPanel {
         ballImg = new ImageIcon(getClass().getResource("/thegame/Picture/ball.png")).getImage();
         startImg = new ImageIcon(getClass().getResource("/thegame/Picture/start.png")).getImage();
         overImg = new ImageIcon(getClass().getResource("/thegame/Picture/gameOver.png")).getImage();
+        victoryImg = new ImageIcon(getClass().getResource("/thegame/Picture/victory.png")).getImage();
         for (int i = 0; i < 6; i++) {
         brickImgs[i] = new ImageIcon(
             getClass().getResource("/thegame/Picture/b" + (i + 1) + ".png")
