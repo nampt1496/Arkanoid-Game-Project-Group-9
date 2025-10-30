@@ -46,6 +46,8 @@ public class GameManager extends JFrame {
             showVictoryMenu(name, point);
         });
 
+        currentLevel.setOnPause(() -> showPauseMenu());
+
         setContentPane(currentLevel.getView());
         revalidate();
         repaint();
@@ -70,10 +72,20 @@ public class GameManager extends JFrame {
         repaint();
     }
 
-    public void retryGame() {
-        bgSound.stop();
-        bgSound.play("/thegame/sound/source/bg.wav");
-        startGame();
+    public void showPauseMenu() {
+        gameState.setState(GameState.State.PAUSED);
+        setContentPane(new thegame.menu.PauseMenu(this));
+        revalidate();
+        repaint();
+    }
+
+    public void resumeGame() {
+        if (currentLevel != null) {
+            setContentPane(currentLevel.getView());
+            revalidate();
+            repaint();
+            currentLevel.resumeGame();
+        }
     }
 
     public void backToMainMenu() {

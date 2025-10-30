@@ -18,8 +18,8 @@ public class BaseLevel {
     private ArrayList<Brick> bricks;
     private Timer gameTimer;
     private Runnable onGameOver; // callback để báo cho GameManager
-
     private Runnable onVictory;
+    private Runnable onPause;
     private PlayerName player;
     private int score;
     private String levelName;
@@ -50,6 +50,9 @@ public class BaseLevel {
 
     public void setOnVictory(Runnable onVictory) {
         this.onVictory = onVictory;
+    }
+    public void setOnPause(Runnable onPause) {
+        this.onPause = onPause;
     }
     public PlayerName getPlayer() { return player; }
     public int getScore() { return score; }
@@ -112,6 +115,29 @@ public class BaseLevel {
                 paddle.setRightPressed(false);
             }
         });
+        //  Tạm dừng game (phím P)
+        im.put(KeyStroke.getKeyStroke("pressed P"), "pauseGame");
+        am.put("pauseGame", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                pauseGame();
+            }
+        });
+    }
+    // Dừng game khi nhấn P
+    private void pauseGame() {
+        if (gameTimer.isRunning()) {
+            gameTimer.stop();
+            if (onPause != null) onPause.run();
+        }
+    }
+
+    // Tiếp tục game (resume)
+    public void resumeGame() {
+        if (!gameTimer.isRunning()) {
+            gameView.requestFocusInWindow();
+            gameTimer.start();
+        }
     }
 
     private void update() {
