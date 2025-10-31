@@ -100,8 +100,10 @@ public class SettingMenu extends JPanel {
         selectBtn.setFont(pixelFont);
         selectBtn.setForeground(Color.GREEN);
         selectBtn.setBackground(new Color(100, 255, 200));
+        selectBtn.setContentAreaFilled(false);
+        selectBtn.setBorderPainted(false);
         selectBtn.setFocusPainted(false);
-        selectBtn.setBorder(null);
+        selectBtn.setOpaque(false);
 
         selectBtn.addActionListener(e -> {
             ClickAnimation.playClickSound();
