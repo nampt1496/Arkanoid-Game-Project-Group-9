@@ -13,10 +13,13 @@ public class GameView extends JPanel {
     private Paddle paddle;
     private NormalBall ball;
     private ArrayList<Brick> bricks;
-    private Image bgImg, paddleImg, ballImg, startImg, overImg, victoryImg;
+    private Image bgImg, ballImg, startImg, overImg, victoryImg;
+    private Image[] paddleImgs = new Image[3];
     private BaseLevel baseLevel;
     private Image cachedBG;
     private Image[] brickImgs = new Image[6];
+    private int currentFrame = 0;
+    private Timer animationTimer;
 
     public GameView(Paddle paddle, NormalBall ball, ArrayList<Brick> bricks, BaseLevel baseLevel) {
         this.paddle = paddle;
@@ -27,7 +30,16 @@ public class GameView extends JPanel {
 
         bgImg = SettingManager.getBackgroundImage(700, 750);
 
-        paddleImg = new ImageIcon(getClass().getResource("/thegame/Picture/paddle.png")).getImage();
+        for (int i = 0; i < 3; i++) {
+            paddleImgs[i] = new ImageIcon(
+                    getClass().getResource("/thegame/Picture/paddle" + (i + 1) + ".png")
+            ).getImage();
+        }
+        animationTimer = new Timer(120, e -> {
+            currentFrame = (currentFrame + 1) % paddleImgs.length;
+        });
+        animationTimer.start();
+
         ballImg = new ImageIcon(getClass().getResource("/thegame/Picture/ball.png")).getImage();
         startImg = new ImageIcon(getClass().getResource("/thegame/Picture/start.png")).getImage();
         overImg = new ImageIcon(getClass().getResource("/thegame/Picture/gameOver.png")).getImage();
@@ -87,7 +99,7 @@ public class GameView extends JPanel {
             }
         }
 
-        g2.drawImage(paddleImg, paddle.getX(), paddle.getY(),
+        g2.drawImage(paddleImgs[currentFrame], paddle.getX(), paddle.getY(),
                 paddle.getWidth(), paddle.getHeight(), this);
         g2.drawImage(ballImg, ball.getX(), ball.getY(),
                 ball.getSize(), ball.getSize(), this);
