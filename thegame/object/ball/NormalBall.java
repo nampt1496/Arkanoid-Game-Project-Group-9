@@ -52,4 +52,18 @@ public class NormalBall {
     public int getX() { return (int)x; }
     public int getY() { return (int)y; }
     public int getSize() { return SIZE; }
+
+    public void setPosition(double x, double y) {
+        this.x = x;
+        this.y = y;
+    }
+
+    public void setVelocity(double dx, double dy) {
+        this.dx = dx;
+        this.dy = dy;
+    }
+
+    public double getDx() { return dx; }
+    public double getDy() { return dy; }
+    public int getRadius() { return SIZE / 2; }
 }

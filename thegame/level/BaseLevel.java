@@ -26,12 +26,13 @@ public class BaseLevel {
     private PlayerName player;
     private Point point = new Point();
     private String levelName;
+    private boolean ballLaunched = false;
 
     public BaseLevel(String playerName) {
         this.player = new PlayerName(playerName);
         this.levelName = "Base";
         paddle = new Paddle(310, 700, 120, 15);
-        ball = new NormalBall(390, 400, 15, 2, 2);
+        ball = new NormalBall(paddle.getX() + paddle.getWidth() / 2 -7, paddle.getY() - 20, 15, 0, 0);
         initBricks();
         gameView = new GameView(paddle, ball, bricks, this);
 
@@ -114,6 +115,17 @@ public class BaseLevel {
             }
         });
 
+        im.put(KeyStroke.getKeyStroke("pressed SPACE"), "launchBall");
+        am.put("launchBall", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (!ballLaunched) {
+                    ball.setVelocity(4, 4);
+                    ballLaunched = true;
+                }
+            }
+        });
+
         im.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "pauseGame");
         am.put("pauseGame", new AbstractAction() {
             @Override
@@ -142,7 +154,14 @@ public class BaseLevel {
 
     private void update() {
         paddle.update();
-        ball.move(gameView.getWidth(), gameView.getHeight());
+        if (!ballLaunched) {
+            ball.setPosition(
+                    paddle.getX() + paddle.getWidth() / 2 - ball.getSize() / 2,
+                    paddle.getY() - ball.getSize() - 5
+            );
+        } else {
+            ball.move(gameView.getWidth(), gameView.getHeight());
+        }
 
         Rectangle ballRect = ball.getBounds();
         Rectangle paddleRect = paddle.getBounds();
