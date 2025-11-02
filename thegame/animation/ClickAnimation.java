@@ -8,7 +8,7 @@ public class ClickAnimation {
 
     static {
         try {
-            URL soundURL = ClickAnimation.class.getResource("/thegame/sound/source/click1.wav");
+            URL soundURL = ClickAnimation.class.getResource("/thegame/sound/source/click0.wav");
             if (soundURL != null) {
                 AudioInputStream audioIn = AudioSystem.getAudioInputStream(soundURL);
                 clickClip = AudioSystem.getClip();
