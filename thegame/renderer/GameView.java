@@ -3,9 +3,12 @@ package thegame.renderer;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
+
 import thegame.level.BaseLevel;
 import thegame.object.ball.NormalBall;
 import thegame.object.brick.Brick;
+import thegame.object.brick.StrongBrick;
+import thegame.object.brick.UnbreakableBrick;
 import thegame.object.paddle.Paddle;
 import thegame.setting.SettingManager;
 
@@ -44,11 +47,15 @@ public class GameView extends JPanel {
         startImg = new ImageIcon(getClass().getResource("/thegame/Picture/start.png")).getImage();
         overImg = new ImageIcon(getClass().getResource("/thegame/Picture/gameOver.png")).getImage();
         victoryImg = new ImageIcon(getClass().getResource("/thegame/Picture/victory.png")).getImage();
-        for (int i = 0; i < 6; i++) {
-        brickImgs[i] = new ImageIcon(
-            getClass().getResource("/thegame/Picture/b" + (i + 1) + ".png")
-            ).getImage();
-        }
+//        for (int i = 0; i < 6; i++) {
+//            brickImgs[i] = new ImageIcon(getClass().getResource("/thegame/Picture/b" + (i + 1) + ".png")).getImage();
+//        }
+        brickImgs[0] = new ImageIcon(getClass().getResource("/thegame/Picture/brickdo.png")).getImage();
+        brickImgs[1] = new ImageIcon(getClass().getResource("/thegame/Picture/brickxam.png")).getImage();
+        brickImgs[2] = new ImageIcon(getClass().getResource("/thegame/Picture/brickcam.png")).getImage();
+        brickImgs[3] = new ImageIcon(getClass().getResource("/thegame/Picture/brickxanhlacay.png")).getImage();
+        brickImgs[4] = new ImageIcon(getClass().getResource("/thegame/Picture/bricknau.png")).getImage();
+        brickImgs[5] = new ImageIcon(getClass().getResource("/thegame/Picture/bricktim.png")).getImage();
     }
 
     public void setBricks(ArrayList<Brick> bricks) {
@@ -61,14 +68,14 @@ public class GameView extends JPanel {
 
     public void refreshBackground() {
         this.bgImg = SettingManager.getBackgroundImage(700, 750);
-        this.cachedBG = null; 
+        this.cachedBG = null;
     }
-
     public void setBackgroundImage(Image newBg) {
         this.bgImg = newBg;
-        this.cachedBG = null; 
+        this.cachedBG = null;
         repaint();
     }
+
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
@@ -86,16 +93,23 @@ public class GameView extends JPanel {
         for (int i = 0; i < bricks.size(); i++) {
             Brick brick = bricks.get(i);
             if (!brick.isDestroyed()) {
-                int rowIndex = (brick.y - 120) / 33;
-                if (rowIndex < 0) rowIndex = 0;
-                if (rowIndex > 5) rowIndex = 5;
+                if (brick instanceof StrongBrick) {
+                    StrongBrick sbrick = (StrongBrick) brick;
+                    Image img = sbrick.getCurrentImage();
+                    if (img != null) {
+                        g2.drawImage(img, brick.x, brick.y, brick.width, brick.height, this);
+                    } else {
+                        g2.setColor(brick.getColor());
+                        g2.fillRect(brick.x, brick.y, brick.width, brick.height);
+                    }
+                }
+                else if (brick instanceof UnbreakableBrick) {
+                    g2.drawImage(brickImgs[1], brick.x, brick.y, brick.width, brick.height, this);
+                }
+                else if (brick instanceof Brick) {
+                    g2.drawImage(brickImgs[0], brick.x, brick.y, brick.width, brick.height, this);
+                }
 
-                g2.drawImage(
-                    brickImgs[rowIndex],
-                    brick.x, brick.y,
-                    brick.width, brick.height,
-                    this
-                );
             }
         }
 
@@ -110,8 +124,8 @@ public class GameView extends JPanel {
     private void drawHUD(Graphics2D g2) {
         try {
             Font pixelFont = Font.createFont(
-                Font.TRUETYPE_FONT,
-                getClass().getResourceAsStream("/thegame/font/pixel2.otf")
+                    Font.TRUETYPE_FONT,
+                    getClass().getResourceAsStream("/thegame/font/pixel2.otf")
             );
             pixelFont = pixelFont.deriveFont(23f);
             g2.setFont(pixelFont);
@@ -122,12 +136,12 @@ public class GameView extends JPanel {
         g2.setColor(new Color(0, 0, 0, 255));
         g2.fillRect(0, 0, getWidth(), 70);
 
-        
+
         g2.setColor(Color.CYAN);
         g2.drawString("Player: " + baseLevel.getPlayer().getName(), 25, 30);
 
         g2.setColor(Color.WHITE);
-        g2.drawString("NOTICE: you can press ESC to PAUSE (33)" , 210, 30);
+        g2.drawString("NOTICE: you can press ESC to PAUSE", 210, 30);
 
         g2.setColor(Color.RED);
         g2.drawString("Score: " + baseLevel.getScore(), 25, 60);

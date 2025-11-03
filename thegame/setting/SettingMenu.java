@@ -109,15 +109,27 @@ public class SettingMenu extends JPanel {
             ClickAnimation.playClickSound();
             if (isBackground) {
                 SettingManager.setBackgroundIndex(index);
-                SettingManager.applyBackgroundTo(manager.getCurrentLevel()); 
+                SettingManager.applyBackgroundTo(manager.getCurrentLevel());
                 System.out.println("Đã chọn nền: " + name);
             }
             else {
-                String track = switch (index) {
-                    case 1 -> "/thegame/sound/source/gdty.wav";
-                    case 2 -> "/thegame/sound/source/summertime.wav";
-                    default -> "/thegame/sound/source/bg.wav";
-                };
+//                String track = switch (index) {
+//                    case 1 -> "/thegame/sound/source/gdty.wav";
+//                    case 2 -> "/thegame/sound/source/summertime.wav";
+//                    default -> "/thegame/sound/source/bg.wav";
+
+                String track;
+                switch (index) {
+                    case 1:
+                        track = "/thegame/sound/source/gdty.wav";
+                        break;
+                    case 2:
+                        track = "/thegame/sound/source/summertime.wav";
+                        break;
+                    default:
+                        track = "/thegame/sound/source/bg.wav";
+                        break;
+                }
                 bgSound.stop();
                 bgSound.play(track);
                 SettingManager.setMusicPath(track);

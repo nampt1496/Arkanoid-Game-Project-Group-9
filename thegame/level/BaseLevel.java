@@ -15,18 +15,18 @@ import thegame.renderer.GameView;
 import thegame.sound.bgSound;
 
 public class BaseLevel {
-    private GameView gameView;
-    private Paddle paddle;
-    private NormalBall ball;
-    private ArrayList<Brick> bricks;
-    private Timer gameTimer;
-    private Runnable onGameOver; // callback để báo cho GameManager
-    private Runnable onVictory;
-    private Runnable onPause;
-    private PlayerName player;
-    private Point point = new Point();
-    private String levelName;
-    private boolean ballLaunched = false;
+    protected GameView gameView;
+    protected Paddle paddle;
+    protected NormalBall ball;
+    protected ArrayList<Brick> bricks;
+    protected Timer gameTimer;
+    protected Runnable onGameOver; // callback để báo cho GameManager
+    protected Runnable onVictory;
+    protected Runnable onPause;
+    protected PlayerName player;
+    protected Point point = new Point();
+    protected String levelName;
+    protected boolean ballLaunched = false;
 
     public BaseLevel(String playerName) {
         this.player = new PlayerName(playerName);
@@ -41,7 +41,7 @@ public class BaseLevel {
         gameView.requestFocusInWindow();
 
         gameTimer = new Timer(5, e -> update());
-        
+
     }
 
     public void setOnGameOver(Runnable onGameOver) {
@@ -59,7 +59,7 @@ public class BaseLevel {
     public void addScore(int value) { point.addScore(value); }
     public int getScore() { return point.getScore(); }
 
-    private void initBricks() {
+    protected void initBricks() {
         bricks = new ArrayList<>();
         int rows = 6, cols = 8;
         int brickWidth = 65, brickHeight = 25, spacing = 8;
@@ -77,7 +77,7 @@ public class BaseLevel {
         }
     }
 
-    private void setupKeyControls() {
+    protected void setupKeyControls() {
         InputMap im = gameView.getInputMap(JComponent.WHEN_IN_FOCUSED_WINDOW);
         ActionMap am = gameView.getActionMap();
 
@@ -136,7 +136,7 @@ public class BaseLevel {
         });
     }
 
-    private void pauseGame() {
+    protected void pauseGame() {
         if (gameTimer.isRunning()) {
             bgSound.pause();
             gameTimer.stop();
@@ -152,7 +152,7 @@ public class BaseLevel {
         }
     }
 
-    private void update() {
+    protected void update() {
         paddle.update();
         if (!ballLaunched) {
             ball.setPosition(
@@ -173,7 +173,7 @@ public class BaseLevel {
         for (Brick brick : bricks) {
             if (!brick.isDestroyed() && ballRect.intersects(brick.getBounds())) {
                 brick.hit();
-                ball.bounceOnBrick();
+                ball.bounceOnBrick(ballRect);
                 if ("Toan".equals(player.getName())) {
                     addScore(100);
                 } else {
