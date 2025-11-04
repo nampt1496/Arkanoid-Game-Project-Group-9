@@ -50,7 +50,7 @@ public class StartMenu extends JPanel {
             }
 
             if (playerName.length() > 7) {
-                showArcadeMessage("Name must be under 10 characters!");
+                showArcadeMessage("Name must be under 8 characters!");
                 return;
             }
 

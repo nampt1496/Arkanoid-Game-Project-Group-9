@@ -124,7 +124,7 @@ public class BaseLevel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (!ballLaunched) {
-                    ball.setVelocity(1, 1);
+                    ball.setVelocity(2.5, 2.5);
                     ballLaunched = true;
                 }
             }

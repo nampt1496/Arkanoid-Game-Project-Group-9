@@ -1,15 +1,19 @@
 package thegame.power;
-import java.awt.Color;
 import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.Toolkit;
 import thegame.object.ball.NormalBall;
 import thegame.object.paddle.Paddle;
-
 public class ExpandPaddlePowerUp extends PowerUp {
 
+    private final Image icon;
     private final int EXPAND_AMOUNT = 50; // tăng chiều rộng bao nhiêu pixel
 
     public ExpandPaddlePowerUp(int x, int y, int width, int height) {
         super(x, y, width, height);
+        icon = Toolkit.getDefaultToolkit().getImage(
+                getClass().getResource("/thegame/Picture/Source/morong.png")
+        );
     }
 
     @Override
@@ -22,7 +26,6 @@ public class ExpandPaddlePowerUp extends PowerUp {
     public void draw( ){}
 
     public void draw(Graphics g) {
-        g.setColor(Color.GREEN);
-        g.fillRect(x, y, width, height);
+        g.drawImage(icon, x, y, width+40, height, null);
     }
 }

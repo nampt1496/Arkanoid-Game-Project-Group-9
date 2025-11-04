@@ -32,6 +32,7 @@ public class NormalBall {
         dy = -Math.abs(dy);
         double hitPos = (x + SIZE / 2.0 - paddle.getX()) / paddle.getWidth() - 0.5;
         dx += hitPos * 2.0;
+        dx = Math.max(-5, Math.min(5, dx));
         y = paddle.getY() - SIZE;
     }
 
@@ -47,20 +48,22 @@ public class NormalBall {
         double absDX = Math.abs(dxFromBrick);
         double absDY = Math.abs(dyFromBrick);
 
-        if (absDX > absDY) {
+        if (Math.abs(absDX - absDY) < 2) { // va góc (gần bằng)
+            dx = -dx;
+            dy = -dy;
+        } else if (absDX > absDY) {
             dx = -dx;
             if (dxFromBrick > 0)
-                x = brickRect.getMaxX() + 1; // đẩy ra ngoài
+                x = brickRect.getMaxX() + Math.abs(dx);
             else
-                x = brickRect.getMinX() - SIZE - 1;
+                x = brickRect.getMinX() - SIZE - Math.abs(dx);
         } else {
             dy = -dy;
             if (dyFromBrick > 0)
-                y = brickRect.getMaxY() + 1;
+                y = brickRect.getMaxY() + Math.abs(dy);
             else
-                y = brickRect.getMinY() - SIZE - 1;
+                y = brickRect.getMinY() - SIZE - Math.abs(dy);
         }
-
         CollideAnimation.playBrickBreak();
     }
 

@@ -3,37 +3,36 @@ package thegame.power;
 import thegame.object.paddle.Paddle;
 import thegame.object.ball.NormalBall;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-
+import java.awt.Image;
+import java.awt.Toolkit;
 public class FastBallPowerUp extends PowerUp {
-    private final double SPEED_MULTIPLIER = 1.6; // nhân tốc độ lên 1.6 lần (thay đổi tuỳ thích)
-    private final int DURATION_MS = 4000; // 4 giây
+    private final Image icon;
+    private final double SPEED_MULTIPLIER = 1.6;
+    private final int DURATION_MS = 4000;
     @Override
     public void draw( ){}
-    // Lưu velocity ban đầu để revert
+
     private double oldVx = 0;
     private double oldVy = 0;
 
-    // Trạng thái active và timer để revert
+
     private boolean active = false;
     private Timer revertTimer;
     public FastBallPowerUp(int x, int y, int width, int height) {
         super(x, y, width, height);
+        icon = Toolkit.getDefaultToolkit().getImage(
+                getClass().getResource("/thegame/Picture/Source/nhanh.png")
+        );
     }
 
-    /**
-     * Khi power-up được kích hoạt (đã va chạm với paddle).
-     * Lưu ý: chúng ta dùng các getter/setter của NormalBall: getVx(), getVy(), setVelocity(vx, vy).
-     * Nếu NormalBall chưa có getVx()/getVy(), xem phần hướng dẫn bên dưới.
-     */
+
     @Override
     protected void applyEffect(Paddle paddle, NormalBall ball) {
-        // Nếu chưa có getter cho velocity, bạn sẽ cần thêm vào NormalBall.
-        // Lấy vận tốc hiện tại (giả sử NormalBall có getVx/getVy)
+
         double vx = ball.getDx();
         double vy = ball.getDy();
 
@@ -71,7 +70,6 @@ public class FastBallPowerUp extends PowerUp {
 
     @Override
     public void draw(Graphics g) {
-        g.setColor(Color.ORANGE); // màu khác để phân biệt với Expand (xanh lá)
-        g.fillOval(x, y, width, height); // vẽ hình tròn cho variety
+        g.drawImage(icon, x, y, width+40, height, null);
     }
 }
