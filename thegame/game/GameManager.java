@@ -4,6 +4,7 @@ import java.awt.Image;
 import javax.swing.*;
 import thegame.gameplay.GameState;
 import thegame.level.BaseLevel;
+import thegame.level.Level1;
 import thegame.menu.OverMenu;
 import thegame.menu.StartMenu;
 import thegame.setting.SettingManager;
@@ -24,14 +25,13 @@ public class GameManager extends JFrame {
 
         setContentPane(new StartMenu(this));
         setVisible(true);
-        
     }
 
     public void startGame(String playerName) {
         bgSound.stop();
         gameState.setState(GameState.State.RUNNING);
 
-        currentLevel = new BaseLevel(playerName); // sau này có các level mới có thể điều chỉnh.
+        currentLevel = new Level1(playerName); // sau này có các level mới có thể điều chỉnh.
         bgSound.play(SettingManager.getMusicPath());
         currentLevel.setOnGameOver(() -> {
             bgSound.stop();

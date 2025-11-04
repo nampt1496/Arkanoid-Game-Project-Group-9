@@ -1,9 +1,8 @@
 package thegame.power;
-
-import thegame.object.paddle.Paddle;
-import thegame.object.ball.NormalBall;
 import java.awt.Color;
 import java.awt.Graphics;
+import thegame.object.ball.NormalBall;
+import thegame.object.paddle.Paddle;
 
 public class ExpandPaddlePowerUp extends PowerUp {
 

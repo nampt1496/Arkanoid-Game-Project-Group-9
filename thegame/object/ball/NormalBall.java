@@ -35,11 +35,35 @@ public class NormalBall {
         y = paddle.getY() - SIZE;
     }
 
-    public void bounceOnBrick() {
-        dy = -dy;
+    public void bounceOnBrick(Rectangle brickRect) {
+        Rectangle ballRect = getBounds();
+        double ballCenterX = ballRect.getCenterX();
+        double ballCenterY = ballRect.getCenterY();
+        double brickCenterX = brickRect.getCenterX();
+        double brickCenterY = brickRect.getCenterY();
+
+        double dxFromBrick = ballCenterX - brickCenterX;
+        double dyFromBrick = ballCenterY - brickCenterY;
+        double absDX = Math.abs(dxFromBrick);
+        double absDY = Math.abs(dyFromBrick);
+
+        if (absDX > absDY) {
+            dx = -dx;
+            if (dxFromBrick > 0)
+                x = brickRect.getMaxX() + 1; // đẩy ra ngoài
+            else
+                x = brickRect.getMinX() - SIZE - 1;
+        } else {
+            dy = -dy;
+            if (dyFromBrick > 0)
+                y = brickRect.getMaxY() + 1;
+            else
+                y = brickRect.getMinY() - SIZE - 1;
+        }
+
         CollideAnimation.playBrickBreak();
-        CollideAnimation.playAddScore();
     }
+
 
     public boolean isOutOfBounds(int height) {
         return y >= height;

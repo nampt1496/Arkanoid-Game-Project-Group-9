@@ -9,14 +9,6 @@ import javax.swing.Timer;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * Power-up làm tăng tốc độ quả bóng tạm thời.
- * Behavior:
- *  - Khi activate() được gọi: nhân vận tốc hiện tại của ball lên SPEED_MULTIPLIER
- *  - Giữ nguyên trong DURATION_MS milli-giây
- *  - Sau thời gian, trả về vận tốc ban đầu
- *  - Nếu ăn thêm khi đang active: không nhân thêm nữa, chỉ gia hạn thời gian
- */
 public class FastBallPowerUp extends PowerUp {
     private final double SPEED_MULTIPLIER = 1.6; // nhân tốc độ lên 1.6 lần (thay đổi tuỳ thích)
     private final int DURATION_MS = 4000; // 4 giây

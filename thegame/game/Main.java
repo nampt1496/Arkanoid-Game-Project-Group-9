@@ -7,3 +7,4 @@ public class Main {
         javax.swing.SwingUtilities.invokeLater(() -> new GameManager());
     }
 }
+

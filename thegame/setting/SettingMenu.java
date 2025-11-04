@@ -113,8 +113,14 @@ public class SettingMenu extends JPanel {
                 System.out.println("Đã chọn nền: " + name);
             }
             else {
+
+//                String track = switch (index) {
+//                    case 1 -> "/thegame/sound/source/gdty.wav";
+//                    case 2 -> "/thegame/sound/source/summertime.wav";
+//                    default -> "/thegame/sound/source/bg.wav";
+
                 String track;
-                switch(index){
+                switch (index) {
                     case 1:
                         track = "/thegame/sound/source/gdty.wav";
                         break;
@@ -124,7 +130,8 @@ public class SettingMenu extends JPanel {
                     default:
                         track = "/thegame/sound/source/bg.wav";
                         break;
-                };
+
+                }
                 bgSound.stop();
                 bgSound.play(track);
                 SettingManager.setMusicPath(track);

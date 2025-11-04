@@ -1,13 +1,13 @@
 package thegame.power;
 
-import thegame.object.GameObject;
-import thegame.object.paddle.Paddle;
-import thegame.object.ball.NormalBall;
 import java.awt.Rectangle;
+import thegame.object.GameObject;
+import thegame.object.ball.NormalBall;
+import thegame.object.paddle.Paddle;
 
 public abstract class PowerUp extends GameObject {
     protected boolean active = false;
-    protected int speed = 3; // tốc độ rơi
+    protected int speed = 3; 
 
     public PowerUp(int x, int y, int width, int height) {
         this.x = x;
@@ -16,12 +16,10 @@ public abstract class PowerUp extends GameObject {
         this.height = height;
     }
 
-    // Cập nhật vị trí (rơi xuống)
     public void update() {
         y += speed;
     }
 
-    // Khi chạm paddle
     public void activate(Paddle paddle, NormalBall ball) {
         if (!active) {
             active = true;
@@ -29,13 +27,10 @@ public abstract class PowerUp extends GameObject {
         }
     }
 
-    // Hiệu ứng khi được kích hoạt
     protected abstract void applyEffect(Paddle paddle,NormalBall  ball);
 
-    // Nếu bạn muốn hiệu ứng chỉ tạm thời, override để xóa hiệu ứng
     protected void removeEffect(Paddle paddle, NormalBall ball) {}
 
-    // Lấy hình chữ nhật để kiểm tra va chạm
     public Rectangle getBounds() {
         return new Rectangle(x, y, width, height);
     }
