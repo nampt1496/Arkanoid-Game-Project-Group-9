@@ -38,32 +38,31 @@ public class NormalBall {
 
     public void bounceOnBrick(Rectangle brickRect) {
         Rectangle ballRect = getBounds();
-        double ballCenterX = ballRect.getCenterX();
-        double ballCenterY = ballRect.getCenterY();
-        double brickCenterX = brickRect.getCenterX();
-        double brickCenterY = brickRect.getCenterY();
+        double vx = dx;
+        double vy = dy;
 
-        double dxFromBrick = ballCenterX - brickCenterX;
-        double dyFromBrick = ballCenterY - brickCenterY;
-        double absDX = Math.abs(dxFromBrick);
-        double absDY = Math.abs(dyFromBrick);
+        double overlapLeft = ballRect.getMaxX() - brickRect.getMinX();
+        double overlapRight = brickRect.getMaxX() - ballRect.getMinX();
+        double overlapTop = ballRect.getMaxY() - brickRect.getMinY();
+        double overlapBottom = brickRect.getMaxY() - ballRect.getMinY();
 
-        if (Math.abs(absDX - absDY) < 2) { // va góc (gần bằng)
-            dx = -dx;
-            dy = -dy;
-        } else if (absDX > absDY) {
-            dx = -dx;
-            if (dxFromBrick > 0)
-                x = brickRect.getMaxX() + Math.abs(dx);
-            else
-                x = brickRect.getMinX() - SIZE - Math.abs(dx);
-        } else {
-            dy = -dy;
-            if (dyFromBrick > 0)
-                y = brickRect.getMaxY() + Math.abs(dy);
-            else
-                y = brickRect.getMinY() - SIZE - Math.abs(dy);
-        }
+        double nx = 0, ny = 0;
+        double minX = Math.min(overlapLeft, overlapRight);
+        double minY = Math.min(overlapTop, overlapBottom);
+        if (minX < minY)
+            nx = (overlapLeft < overlapRight) ? -1 : 1;
+        else
+            ny = (overlapTop < overlapBottom) ? -1 : 1;
+
+        double dot = vx * nx + vy * ny;
+        dx = vx - 2 * dot * nx;
+        dy = vy - 2 * dot * ny;
+
+        if (nx != 0)
+            x += nx;
+        if (ny != 0)
+            y += ny;
+
         CollideAnimation.playBrickBreak();
     }
 
