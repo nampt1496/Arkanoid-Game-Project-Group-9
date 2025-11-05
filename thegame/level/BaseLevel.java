@@ -18,7 +18,7 @@ import thegame.sound.bgSound;
 public class BaseLevel {
     protected GameView gameView;
     protected Paddle paddle;
-    protected ArrayList<NormalBall> balls; 
+    protected ArrayList<NormalBall> balls;
     public ArrayList<Brick> bricks;
     protected Timer gameTimer;
     protected Runnable onGameOver;
@@ -29,7 +29,7 @@ public class BaseLevel {
     protected String levelName;
     protected boolean ballLaunched = false;
     protected ArrayList<PowerUp> powerUps = new ArrayList<>();
-    private PowerUp activePowerUp = null;
+    protected PowerUp activePowerUp = null;
 
     public BaseLevel(String playerName) {
         this.player = new PlayerName(playerName);
@@ -44,7 +44,7 @@ public class BaseLevel {
         ));
 
         initBricks();
-        gameView = new GameView(paddle, balls, bricks, this); 
+        gameView = new GameView(paddle, balls, bricks, this);
 
         setupKeyControls();
         gameView.setFocusable(true);
