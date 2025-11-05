@@ -14,5 +14,5 @@ Mỗi cấp độ sẽ có những hình xếp khác nhau, các loại gạch đ
 ## 🚀 Hình ảnh game
 ![Giao diện mở đầu](/screenshots/start.png)
 ![Gameplay](/screenshots/gameplay.png)
-![Thông báo khi thua](/screenshots/over.png)
+![Giao diện setting](/screenshots/over.png)
 ![Màn hình tạm dừng](/screenshots/win.png)
