@@ -12,7 +12,23 @@ Mỗi cấp độ sẽ có những hình xếp khác nhau, các loại gạch đ
 - ⚙️ IDE: IntelliJ IDEA / NetBeans / VS Code
 - 🧱 Tài nguyên: Tự thiết kế và tham khảo từ nhiều dự án Arkanoid mã nguồn mở
 ## 🚀 Hình ảnh game
-![Giao diện mở đầu](/screenshots/start.png)
-![Gameplay](/screenshots/gameplay.png)
-![Giao diện setting](/screenshots/setting.png)
-![Màn hình tạm dừng](/screenshots/pause.png)
+
+<figure>
+  <img src="/screenshots/start.png" width="600">
+  <figcaption>🎬 <b>Giao diện mở đầu</b></figcaption>
+</figure>
+
+<figure>
+  <img src="/screenshots/gameplay.png" width="600">
+  <figcaption>🎮 <b>Gameplay</b></figcaption>
+</figure>
+
+<figure>
+  <img src="/screenshots/setting.png" width="600">
+  <figcaption>⚙️ <b>Giao diện cài đặt</b></figcaption>
+</figure>
+
+<figure>
+  <img src="/screenshots/pause.png" width="600">
+  <figcaption>⏸️ <b>Màn hình tạm dừng</b></figcaption>
+</figure>
