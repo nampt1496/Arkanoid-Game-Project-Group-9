@@ -16,8 +16,7 @@ public class PauseMenu extends JPanel {
             add(resumeButton);
 
             JButton settingButton = createInvisibleButton(190, 540, 310, 60);
-            //settingButton.addActionListener(e -> manager.showSetting());
-            settingButton.addActionListener(e -> manager.showSetting(true)); // ở PauseMenu
+            settingButton.addActionListener(e -> manager.showSetting(true));
             add(settingButton);
 
             JButton exitButton = createInvisibleButton(270, 645, 150, 60);

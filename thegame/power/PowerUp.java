@@ -11,7 +11,7 @@ import thegame.object.paddle.Paddle;
 public abstract class PowerUp extends GameObject {
     protected boolean active = false;
     protected int speed = 1;
-    protected Color color = Color.WHITE; // màu mặc định (để vẽ)
+    protected Color color = Color.WHITE;
     protected final int WIDTH = 20;
     protected final int HEIGHT = 20;
 
@@ -37,7 +37,6 @@ public abstract class PowerUp extends GameObject {
         }
     }
 
-
     /**
      * Mỗi power-up con sẽ định nghĩa hành vi riêng ở đây.
      */
@@ -45,9 +44,6 @@ public abstract class PowerUp extends GameObject {
 
     public abstract void removeEffect(Paddle paddle, ArrayList<NormalBall> balls);
 
-    /**
-     * Vẽ power-up (mặc định là hình tròn nhỏ).
-     */
     public void draw(Graphics g) {
         g.setColor(color);
         g.fillOval(x, y, width, height);

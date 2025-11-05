@@ -64,13 +64,6 @@ public class Paddle {
 
     /**
      * Mở rộng paddle tạm thời.
-     * @param amount số pixel muốn mở rộng (ví dụ 50)
-     * @param durationMs thời gian (ms) sau đó paddle trả về kích thước gốc
-     *
-     * Behavior:
-     *  - Nếu paddle chưa expanded: tăng width lên base + amount (hoặc current + amount),
-     *    đánh dấu expanded = true và khởi timer.
-     *  - Nếu đang expanded: không tăng thêm (không stack), chỉ reset/khởi lại timer (gia hạn).
      */
     public void expand(int amount, int durationMs) {
         if (!expanded) {
@@ -86,7 +79,7 @@ public class Paddle {
 
         // Tạo timer mới
         expandTimer = new Timer(durationMs, e -> {
-            setWidth(baseWidth);  // trả về baseWidth
+            setWidth(baseWidth);
             expanded = false;
             expandTimer.stop();
         });
@@ -106,10 +99,9 @@ public class Paddle {
         setWidth(this.width - amount);
         expanded = false;
 
-        // Nếu có timer đang chạy cho mở rộng, dừng lại vì paddle đã bị thu nhỏ
+        // Nếu có timer đang chạy cho mở rộng, dừng lại
         if (expandTimer != null && expandTimer.isRunning()) {
             expandTimer.stop();
         }
     }
-    // Nếu bạn muốn cho phép 'shrink' cụ thể (không dùng ở đây), có thể thêm method shrink(int)
 }

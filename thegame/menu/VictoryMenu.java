@@ -17,7 +17,6 @@ public class VictoryMenu extends JPanel {
         this.point = point;
         setLayout(null);
 
-        // Bắt sự kiện click chuột để quay lại StartMenu
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
@@ -26,7 +25,6 @@ public class VictoryMenu extends JPanel {
             }
         });
 
-        // Ảnh nền Victory
         victoryImg = new ImageIcon(getClass().getResource("/thegame/Picture/victory.png")).getImage();
     }
 

@@ -19,12 +19,9 @@ public class FastBallPowerUp extends PowerUp {
     private boolean active = false;
     private Timer revertTimer;
 
-    // Lưu lại vận tốc cũ của các bóng để revert
-    private ArrayList<double[]> oldVelocities = new ArrayList<>();
-
     public FastBallPowerUp(int x, int y, int width, int height) {
-        super(x, y, java.awt.Color.CYAN); // hoặc Color.ORANGE, tùy bạn thích
-        this.width = width;   // thêm 2 dòng này để PowerUp biết kích thước riêng
+        super(x, y, java.awt.Color.CYAN);
+        this.width = width;
         this.height = height;
 
         icon = Toolkit.getDefaultToolkit().getImage(
@@ -36,34 +33,28 @@ public class FastBallPowerUp extends PowerUp {
     protected void applyEffect(Paddle paddle, ArrayList<NormalBall> balls) {
         if (!active) {
             active = true;
-            oldVelocities.clear();
 
-            // ✅ Nhân tốc độ của tất cả bóng hiện có
+            // Nhân tốc độ của tất cả bóng hiện có
             for (NormalBall ball : balls) {
                 double vx = ball.getDx();
                 double vy = ball.getDy();
-
-                // Lưu lại vận tốc gốc để revert sau
-                oldVelocities.add(new double[]{vx, vy});
 
                 // Nhân tốc độ
                 ball.setVelocity(vx * SPEED_MULTIPLIER, vy * SPEED_MULTIPLIER);
             }
         }
 
-        // Nếu timer cũ đang chạy, dừng lại để gia hạn thời gian
         if (revertTimer != null && revertTimer.isRunning()) {
             revertTimer.stop();
         }
 
-        // ✅ Sau DURATION_MS giây thì revert về tốc độ ban đầu
         revertTimer = new Timer(DURATION_MS, new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                for (int i = 0; i < balls.size() && i < oldVelocities.size(); i++) {
-                    double[] oldV = oldVelocities.get(i);
-                    NormalBall b = balls.get(i);
-                    b.setVelocity(oldV[0], oldV[1]);
+                for (NormalBall ball : balls) {
+                    double vx = ball.getDx() / SPEED_MULTIPLIER;
+                    double vy = ball.getDy() / SPEED_MULTIPLIER;
+                    ball.setVelocity(vx, vy);
                 }
                 active = false;
                 revertTimer.stop();
@@ -75,10 +66,10 @@ public class FastBallPowerUp extends PowerUp {
 
     @Override
     public void removeEffect(Paddle paddle, ArrayList<NormalBall> balls) {
-        for (int i = 0; i < balls.size() && i < oldVelocities.size(); i++) {
-            double[] oldV = oldVelocities.get(i);
-            NormalBall b = balls.get(i);
-            b.setVelocity(oldV[0], oldV[1]);
+        for (NormalBall ball : balls) {
+            double vx = ball.getDx() / SPEED_MULTIPLIER;
+            double vy = ball.getDy() / SPEED_MULTIPLIER;
+            ball.setVelocity(vx, vy);
         }
         active = false;
         if (revertTimer != null) revertTimer.stop();
@@ -89,5 +80,5 @@ public class FastBallPowerUp extends PowerUp {
     }
 
     @Override
-    public void draw() {} // Có thể bỏ nếu không cần
+    public void draw() {}
 }

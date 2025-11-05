@@ -14,7 +14,7 @@ public class Level2 extends BaseLevel {
         int brickWidth = 65, brickHeight = 25, spacing = 8;
         int startX = 50;
         int startY = 100;
-        java.util.List<String> lines = readLevelLayout("D:\\Ki1_2526\\oop\\Arkanoid-Game-Project-Group-9\\thegame\\level/level2.txt");
+        java.util.List<String> lines = readLevelLayout("thegame/level/level2.txt");
         for(int row = 0; row < lines.size(); row++){
             String[] tokens = lines.get(row).split("\\s+");
             for(int col = 0; col < tokens.length; col++){
@@ -95,7 +95,7 @@ public class Level2 extends BaseLevel {
                             addScore(10);
                         }
 
-                        // 💎 tạo PowerUp ngẫu nhiên khi gạch vỡ
+                        // tạo PowerUp ngẫu nhiên khi gạch vỡ
                         if (brick.isDestroyed() && Math.random() < 1) {
                             double r = Math.random();
                             if (r < 0.33) {
@@ -119,8 +119,14 @@ public class Level2 extends BaseLevel {
         balls.removeAll(toRemoveBalls);
 
         if (balls.isEmpty()) {
-            gameTimer.stop();
-            if (onGameOver != null) onGameOver.run();
+            lives.loseLife();
+            if(lives.getLives() <= 0) {
+                gameTimer.stop();
+                if (onGameOver != null) onGameOver.run();
+            }
+            else {
+                resetBall();
+            }
         }
 
         // cập nhật powerup

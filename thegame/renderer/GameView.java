@@ -3,6 +3,8 @@ package thegame.renderer;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
+
+import thegame.gameplay.Lives;
 import thegame.level.BaseLevel;
 import thegame.object.ball.NormalBall;
 import thegame.object.brick.Brick;
@@ -24,12 +26,14 @@ public class GameView extends JPanel {
     private int currentFrame = 0;
     private Timer animationTimer;
     private ArrayList<PowerUp> powerUps;
+    private Lives lives;
 
-    public GameView(Paddle paddle,  ArrayList<NormalBall> balls, ArrayList<Brick> bricks, BaseLevel baseLevel) {
+    public GameView(Paddle paddle,  ArrayList<NormalBall> balls, ArrayList<Brick> bricks, BaseLevel baseLevel, Lives lives) {
         this.paddle = paddle;
         this.balls = balls;
         this.bricks = bricks;
         this.baseLevel = baseLevel;
+        this.lives = lives;
         this.powerUps = new ArrayList<>();
 
         setDoubleBuffered(true);
@@ -51,9 +55,6 @@ public class GameView extends JPanel {
         overImg = new ImageIcon(getClass().getResource("/thegame/Picture/gameOver.png")).getImage();
         victoryImg = new ImageIcon(getClass().getResource("/thegame/Picture/victory.png")).getImage();
 
-//        for (int i = 0; i < 6; i++) {
-//            brickImgs[i] = new ImageIcon(getClass().getResource("/thegame/Picture/b" + (i + 1) + ".png")).getImage();
-//        }
         brickImgs[0] = new ImageIcon(getClass().getResource("/thegame/Picture/brickdo.png")).getImage();
         brickImgs[1] = new ImageIcon(getClass().getResource("/thegame/Picture/brickxam.png")).getImage();
         brickImgs[2] = new ImageIcon(getClass().getResource("/thegame/Picture/brickcam.png")).getImage();
@@ -159,6 +160,6 @@ public class GameView extends JPanel {
         g2.drawString("Level: " + baseLevel.getLevelName(), getWidth() - 120, 30);
 
         g2.setColor(Color.PINK);
-        g2.drawString("Lives: 3", getWidth() - 120, 60);
+        g2.drawString("Lives: " + lives.getLives(), getWidth() - 120, 60);
     }
 }

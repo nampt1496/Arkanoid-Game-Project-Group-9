@@ -10,11 +10,11 @@ import java.util.ArrayList;
 public class ExpandPaddlePowerUp extends PowerUp {
 
     private final Image icon;
-    private final int EXPAND_AMOUNT = 50; // tăng chiều rộng bao nhiêu pixel
+    private final int EXPAND_AMOUNT = 50; // tăng chiều rộng
 
     public ExpandPaddlePowerUp(int x, int y, int width, int height) {
-        super(x, y, Color.PINK);  // ✅ Gọi đúng constructor lớp cha
-        this.width = width;       // ✅ Gán thủ công
+        super(x, y, Color.PINK);
+        this.width = width;
         this.height = height;
 
         icon = Toolkit.getDefaultToolkit().getImage(
@@ -30,7 +30,7 @@ public class ExpandPaddlePowerUp extends PowerUp {
 
     @Override
     public void removeEffect(Paddle paddle, ArrayList<NormalBall> balls) {
-        paddle.resetToBase(); // trả paddle về baseWidth ngay lập tức
+        paddle.resetToBase(); // trả paddle về baseWidth
     }
 
 

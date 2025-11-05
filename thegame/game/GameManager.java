@@ -26,11 +26,22 @@ public class GameManager extends JFrame {
         setVisible(true);
     }
 
-    public void startGame(String playerName) {
+    public void startGame(String playerName, String levelName) {
         bgSound.stop();
         gameState.setState(GameState.State.RUNNING);
 
-        currentLevel = new Level2(playerName); // sau này có các level mới có thể điều chỉnh.
+        switch (levelName) {
+            case "Level1":
+                currentLevel = new Level1(playerName);
+                break;
+            case "Level2":
+                currentLevel = new Level2(playerName);
+                break;
+            case "Level3":
+                currentLevel = new BaseLevel(playerName);
+                break;
+        }
+
         bgSound.play(SettingManager.getMusicPath());
         currentLevel.setOnGameOver(() -> {
             bgSound.stop();
@@ -73,6 +84,12 @@ public class GameManager extends JFrame {
     public void showPauseMenu() {
         gameState.setState(GameState.State.PAUSED);
         setContentPane(new thegame.menu.PauseMenu(this));
+        revalidate();
+        repaint();
+    }
+
+    public void showLevelSelect(String playerName) {
+        setContentPane(new thegame.menu.LevelSelectMenu(this, playerName));
         revalidate();
         repaint();
     }

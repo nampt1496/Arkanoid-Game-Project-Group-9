@@ -14,6 +14,7 @@ import thegame.object.paddle.Paddle;
 import thegame.power.*;
 import thegame.renderer.GameView;
 import thegame.sound.bgSound;
+import thegame.gameplay.Lives;
 
 public class BaseLevel {
     protected GameView gameView;
@@ -30,12 +31,13 @@ public class BaseLevel {
     protected boolean ballLaunched = false;
     protected ArrayList<PowerUp> powerUps = new ArrayList<>();
     protected PowerUp activePowerUp = null;
+    protected Lives lives ;
 
     public BaseLevel(String playerName) {
         this.player = new PlayerName(playerName);
-        this.levelName = "Base";
+        this.levelName = "Level3";
         paddle = new Paddle(310, 700, 120, 15);
-
+        lives = new Lives(3);
         balls = new ArrayList<>();
         balls.add(new NormalBall(
                 paddle.getX() + paddle.getWidth() / 2 - 7,
@@ -44,7 +46,7 @@ public class BaseLevel {
         ));
 
         initBricks();
-        gameView = new GameView(paddle, balls, bricks, this);
+        gameView = new GameView(paddle, balls, bricks, this, lives);
 
         setupKeyControls();
         gameView.setFocusable(true);
@@ -124,7 +126,7 @@ public class BaseLevel {
             public void actionPerformed(ActionEvent e) {
                 if (!ballLaunched) {
                     for (NormalBall b : balls) {
-                        b.setVelocity(2, 2);
+                        b.setVelocity(4, 4);
                     }
                     ballLaunched = true;
                 }
@@ -223,8 +225,14 @@ public class BaseLevel {
         balls.removeAll(toRemoveBalls);
 
         if (balls.isEmpty()) {
-            gameTimer.stop();
-            if (onGameOver != null) onGameOver.run();
+            lives.loseLife();
+            if(lives.getLives() <= 0) {
+                gameTimer.stop();
+                if (onGameOver != null) onGameOver.run();
+            }
+            else {
+                resetBall();
+            }
         }
 
         ArrayList<PowerUp> toRemove = new ArrayList<>();
@@ -274,4 +282,15 @@ public class BaseLevel {
         paddle.setRightPressed(false);
         gameTimer.start();
     }
+
+    protected void resetBall() {
+        powerUps.clear();
+        balls.add(new NormalBall(
+                paddle.getX() + paddle.getWidth() / 2 - 7,
+                paddle.getY() - 20,
+                15, 0, 0
+        ));
+        ballLaunched = false;
+    }
+
 }

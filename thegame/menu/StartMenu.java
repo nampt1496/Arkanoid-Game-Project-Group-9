@@ -54,7 +54,7 @@ public class StartMenu extends JPanel {
                 return;
             }
 
-            manager.startGame(playerName);
+            manager.showLevelSelect(playerName);
         });
         add(startButton);
 
