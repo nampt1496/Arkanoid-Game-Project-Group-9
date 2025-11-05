@@ -50,4 +50,8 @@ public class CollideAnimation {
     public static void playAddScore() {
         playSound("/thegame/sound/source/score.wav");
     }
+
+    public static void playLose() {
+        playSound("/thegame/sound/source/losing.wav");
+    }
 }

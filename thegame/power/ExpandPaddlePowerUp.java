@@ -4,13 +4,13 @@ import java.awt.Color;
 import java.awt.Graphics;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.util.ArrayList;
 import thegame.object.ball.NormalBall;
 import thegame.object.paddle.Paddle;
-import java.util.ArrayList;
 public class ExpandPaddlePowerUp extends PowerUp {
 
     private final Image icon;
-    private final int EXPAND_AMOUNT = 50; // tăng chiều rộng
+    private final int EXPAND_AMOUNT = 50; 
 
     public ExpandPaddlePowerUp(int x, int y, int width, int height) {
         super(x, y, Color.PINK);
@@ -24,13 +24,13 @@ public class ExpandPaddlePowerUp extends PowerUp {
 
     @Override
     protected void applyEffect(Paddle paddle, ArrayList<NormalBall> balls) {
-        final int DURATION_MS = 5000; // 5 giây
+        final int DURATION_MS = 5000; 
         paddle.expand(EXPAND_AMOUNT, DURATION_MS);
     }
 
     @Override
     public void removeEffect(Paddle paddle, ArrayList<NormalBall> balls) {
-        paddle.resetToBase(); // trả paddle về baseWidth
+        paddle.resetToBase(); 
     }
 
 

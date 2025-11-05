@@ -3,6 +3,7 @@ package thegame.game;
 import java.awt.Image;
 import javax.swing.*;
 import thegame.gameplay.GameState;
+import thegame.gameplay.Lives;
 import thegame.level.*;
 import thegame.menu.OverMenu;
 import thegame.menu.StartMenu;
@@ -48,7 +49,8 @@ public class GameManager extends JFrame {
             bgSound.playSequential("/thegame/sound/source/gover.wav", "/thegame/sound/source/female.wav");
             String name = currentLevel.getPlayer().getName();
             int point = currentLevel.getScore();
-            gameOver(name, point);
+            int live = currentLevel.getLives().getLives();
+            gameOver(name, point, live);
         });
 
         currentLevel.setOnVictory(() -> {
@@ -66,9 +68,9 @@ public class GameManager extends JFrame {
         currentLevel.start();
     }
 
-    private void gameOver(String playerName, int point) {
+    private void gameOver(String playerName, int point, int live) {
         gameState.setState(GameState.State.GAME_OVER);
-        setContentPane(new OverMenu(this, playerName, point));
+        setContentPane(new OverMenu(this, playerName, point, live));
         revalidate();
         repaint();
     }

@@ -1,21 +1,18 @@
 package thegame.object.paddle;
 
 import java.awt.*;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
 import javax.swing.Timer;
 
 public class Paddle {
     private int x, y, width, height;
     private boolean leftPressed, rightPressed;
-    private final int SPEED = 7;
+    private final int SPEED = 5;
 
 
     private final int baseWidth;
     private boolean expanded = false;
     private Timer expandTimer;
 
-    // Giới hạn min/max width (tránh quá nhỏ hoặc quá lớn)
     private final int MIN_WIDTH = 30;
     private final int MAX_WIDTH = 600;
 
@@ -40,18 +37,15 @@ public class Paddle {
     public int getX() { return x; }
     public int getY() { return y; }
 
-    // Sử dụng setWidth nội bộ có clamp
     public void setWidth(int newWidth) {
         if (newWidth < MIN_WIDTH) newWidth = MIN_WIDTH;
         if (newWidth > MAX_WIDTH) newWidth = MAX_WIDTH;
 
-        // Giữ tâm paddle (center) khi đổi width
         int center = x + width / 2;
         this.width = newWidth;
         this.x = center - width / 2;
 
-        // Clamp vị trí x để paddle không ra ngoài biên (biên game dựa trên GameView của bạn)
-        // 25 là biên trái (theo logic cũ), 675 là giới hạn phải trước đó.
+        
         if (x < 25) x = 25;
         if (x > 675 - width) x = 675 - width;
     }
@@ -59,7 +53,6 @@ public class Paddle {
     public int getWidth() { return width; }
     public int getHeight() { return height; }
 
-    // Mới: trả về baseWidth (cần cho giảm kích thước nếu dùng stacking)
     public int getBaseWidth() { return baseWidth; }
 
     /**
@@ -67,17 +60,15 @@ public class Paddle {
      */
     public void expand(int amount, int durationMs) {
         if (!expanded) {
-            setWidth(this.width + amount);  // tăng width lần đầu
+            setWidth(this.width + amount); 
             expanded = true;
         }
-        // nếu đang expanded thì không cộng thêm, chỉ reset timer
+        
 
-        // Hủy timer cũ nếu còn chạy
         if (expandTimer != null && expandTimer.isRunning()) {
             expandTimer.stop();
         }
 
-        // Tạo timer mới
         expandTimer = new Timer(durationMs, e -> {
             setWidth(baseWidth);
             expanded = false;
@@ -87,9 +78,7 @@ public class Paddle {
         expandTimer.start();
     }
 
-    /**
-     * Nếu muốn reset ngay về kích thước gốc (ví dụ khi đổi level)
-     */
+    
     public void resetToBase() {
         if (expandTimer != null && expandTimer.isRunning()) expandTimer.stop();
         setWidth(baseWidth);
@@ -99,7 +88,6 @@ public class Paddle {
         setWidth(this.width - amount);
         expanded = false;
 
-        // Nếu có timer đang chạy cho mở rộng, dừng lại
         if (expandTimer != null && expandTimer.isRunning()) {
             expandTimer.stop();
         }

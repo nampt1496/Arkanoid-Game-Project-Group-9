@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import javax.swing.*;
 import thegame.animation.ClickAnimation;
 import thegame.animation.CollideAnimation;
+import thegame.gameplay.Lives;
 import thegame.gameplay.Point;
 import thegame.menu.PlayerName;
 import thegame.object.ball.NormalBall;
@@ -14,7 +15,6 @@ import thegame.object.paddle.Paddle;
 import thegame.power.*;
 import thegame.renderer.GameView;
 import thegame.sound.bgSound;
-import thegame.gameplay.Lives;
 
 public class BaseLevel {
     protected GameView gameView;
@@ -31,7 +31,7 @@ public class BaseLevel {
     protected boolean ballLaunched = false;
     protected ArrayList<PowerUp> powerUps = new ArrayList<>();
     protected PowerUp activePowerUp = null;
-    protected Lives lives ;
+    public Lives lives ;
 
     public BaseLevel(String playerName) {
         this.player = new PlayerName(playerName);
@@ -126,7 +126,7 @@ public class BaseLevel {
             public void actionPerformed(ActionEvent e) {
                 if (!ballLaunched) {
                     for (NormalBall b : balls) {
-                        b.setVelocity(4, 4);
+                        b.setVelocity(2, 2);
                     }
                     ballLaunched = true;
                 }
@@ -172,6 +172,13 @@ public class BaseLevel {
                 );
             } else {
                 ball.move(gameView.getWidth(), gameView.getHeight());
+                if (!FastBallPowerUp.active && !SlowBall.active) {
+                    double speed = Math.sqrt(ball.getDx() * ball.getDx() + ball.getDy() * ball.getDy());
+                    if (Math.abs(speed - 2.0) > 0.05) {
+                        double ratio = 2.0 / speed;
+                        ball.setVelocity(ball.getDx() * ratio, ball.getDy() * ratio);
+                    }
+                }
             }
 
             Rectangle ballRect = ball.getBounds();
@@ -199,20 +206,38 @@ public class BaseLevel {
 
             if (collided != null) {
                 collided.hit();
-                ball.bounceOnBrick(collided.getBounds());
-                addScore("Toan".equals(player.getName()) ? 100 : 10);
+                if (collided.isDestroyed()) {
+                    CollideAnimation.playAddScore();
+                }
+                ball.bounceOnBrick(collided);               
+                addScore("Toan".equals(player.getName()) ? 1000 : 10);
 
-                if (collided.isDestroyed() && Math.random() < 0.1) {
+                if (collided.isDestroyed() && Math.random() < 0.8) {
                     double r = Math.random();
                     int powerX = collided.x + collided.width / 2 - 10;
                     int powerY = collided.y;
 
-                    if (r < 0.33) {
-                        powerUps.add(new ExpandPaddlePowerUp(powerX, powerY, 20, 20));
-                    } else if (r < 0.66) {
-                        powerUps.add(new FastBallPowerUp(powerX, powerY, 20, 20));
+                    if (r < 0.8) {
+                        double s = Math.random();
+                        int bonus;
+                        if (s < 0.4) bonus = -1000;          
+                        else if (s < 0.65) bonus = -500;    
+                        else if (s < 0.8) bonus = 100;     
+                        else if (s < 0.92) bonus = 250;      
+                        else bonus = 500;                    
+                        powerUps.add(new AddScorePowerUp(powerX, powerY, 20, 20, bonus));
+
                     } else {
-                        powerUps.add(new TripleBallPowerUp(powerX, powerY));
+                        double t = Math.random();
+                        if (t < 0.1) {
+                            powerUps.add(new TripleBallPowerUp(powerX, powerY)); 
+                        } else if (t < 0.4) {
+                            powerUps.add(new ExpandPaddlePowerUp(powerX, powerY, 20, 20)); 
+                        } else if (t < 0.7) {
+                            powerUps.add(new FastBallPowerUp(powerX, powerY, 20, 20)); 
+                        } else {
+                            powerUps.add(new SlowBall(powerX, powerY, 20, 20));
+                        }
                     }
                 }
             }
@@ -246,10 +271,13 @@ public class BaseLevel {
                     activePowerUp.removeEffect(paddle, balls);
                     activePowerUp = null;
                 }
-
+                CollideAnimation.playAddScore();
                 powerUp.activate(paddle, balls);
                 activePowerUp = powerUp;
-
+                if (powerUp instanceof AddScorePowerUp) {
+                    AddScorePowerUp scorePower = (AddScorePowerUp) powerUp;
+                    addScore(scorePower.getScoreBonus());
+                }
                 toRemove.add(powerUp);
             }
 
@@ -269,7 +297,8 @@ public class BaseLevel {
         }
         if (allDestroyed) {
             gameTimer.stop();
-            if (onVictory != null) onVictory.run();
+            if (onVictory != null && getScore() > 0) {onVictory.run();}
+            else {onGameOver.run();}
         }
 
         gameView.repaint();
@@ -291,6 +320,10 @@ public class BaseLevel {
                 15, 0, 0
         ));
         ballLaunched = false;
+    }
+
+    public Lives getLives() {
+        return lives;
     }
 
 }

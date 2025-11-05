@@ -2,11 +2,14 @@ package thegame.object.ball;
 
 import java.awt.*;
 import thegame.animation.CollideAnimation;
+import thegame.object.brick.Brick;
+import thegame.object.brick.UnbreakableBrick;
 import thegame.object.paddle.Paddle;
 
 public class NormalBall {
     private double x, y, dx, dy;
     private final int SIZE;
+    private static final double FIXED_SPEED = 2.0;
 
     public NormalBall(double x, double y, int size, double dx, double dy) {
         this.x = x; this.y = y;
@@ -32,11 +35,16 @@ public class NormalBall {
         dy = -Math.abs(dy);
         double hitPos = (x + SIZE / 2.0 - paddle.getX()) / paddle.getWidth() - 0.5;
         dx += hitPos * 2.0;
-        dx = Math.max(-5, Math.min(5, dx));
+
+        double speed = Math.sqrt(dx * dx + dy * dy);
+        dx = dx / speed * FIXED_SPEED;
+        dy = dy / speed * FIXED_SPEED;
+
         y = paddle.getY() - SIZE;
     }
 
-    public void bounceOnBrick(Rectangle brickRect) {
+    public void bounceOnBrick(Brick brick) {
+        Rectangle brickRect = brick.getBounds();
         Rectangle ballRect = getBounds();
         double vx = dx;
         double vy = dy;
@@ -58,18 +66,17 @@ public class NormalBall {
         dx = vx - 2 * dot * nx;
         dy = vy - 2 * dot * ny;
 
+        double speed = Math.sqrt(dx * dx + dy * dy);
+        dx = dx / speed * FIXED_SPEED;
+        dy = dy / speed * FIXED_SPEED;
+
         if (nx != 0) x += nx * 2;
         if (ny != 0) y += ny * 2;
-
-        double speed = Math.sqrt(dx * dx + dy * dy);
-        double maxSpeed = 6.0;
-        if (speed > maxSpeed) {
-            dx = dx / speed * maxSpeed;
-            dy = dy / speed * maxSpeed;
+        if (brick instanceof UnbreakableBrick) {
+            CollideAnimation.playBallWall(); 
+        } else {
+            CollideAnimation.playBrickBreak(); 
         }
-
-        CollideAnimation.playBrickBreak();
-        CollideAnimation.playAddScore();
     }
 
 

@@ -3,7 +3,6 @@ package thegame.renderer;
 import java.awt.*;
 import java.util.ArrayList;
 import javax.swing.*;
-
 import thegame.gameplay.Lives;
 import thegame.level.BaseLevel;
 import thegame.object.ball.NormalBall;
@@ -148,18 +147,18 @@ public class GameView extends JPanel {
 
 
         g2.setColor(Color.CYAN);
-        g2.drawString("Player: " + baseLevel.getPlayer().getName(), 25, 30);
+        g2.drawString("Player: " + baseLevel.getPlayer().getName(), 20, 30);
 
         g2.setColor(Color.WHITE);
-        g2.drawString("NOTICE: you can press ESC to PAUSE (51)" , 210, 30);
+        g2.drawString("NOTICE: you can press ESC to PAUSE" , 195, 30);
 
         g2.setColor(Color.RED);
-        g2.drawString("Score: " + baseLevel.getScore(), 25, 60);
+        g2.drawString("Score: " + baseLevel.getScore(), 20, 60);
 
         g2.setColor(Color.ORANGE);
-        g2.drawString("Level: " + baseLevel.getLevelName(), getWidth() - 120, 30);
+        g2.drawString("Level: " + baseLevel.getLevelName(), getWidth() - 130, 30);
 
         g2.setColor(Color.PINK);
-        g2.drawString("Lives: " + lives.getLives(), getWidth() - 120, 60);
+        g2.drawString("Lives: " + lives.getLives(), getWidth() - 130, 60);
     }
 }

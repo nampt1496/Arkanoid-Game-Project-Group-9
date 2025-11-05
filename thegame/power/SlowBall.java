@@ -10,21 +10,21 @@ import javax.swing.Timer;
 import thegame.object.ball.NormalBall;
 import thegame.object.paddle.Paddle;
 
-public class FastBallPowerUp extends PowerUp {
+public class SlowBall extends PowerUp {
     private final Image icon;
-    private final double SPEED_MULTIPLIER = 2;
+    private final double SPEED_MULTIPLIER = 0.6;
     private final int DURATION_MS = 4000;
 
     public static boolean active = false;
     private Timer revertTimer;
 
-    public FastBallPowerUp(int x, int y, int width, int height) {
+    public SlowBall(int x, int y, int width, int height) {
         super(x, y, java.awt.Color.CYAN);
         this.width = width;
         this.height = height;
 
         icon = Toolkit.getDefaultToolkit().getImage(
-                getClass().getResource("/thegame/Picture/Source/nhanh.png")
+                getClass().getResource("/thegame/Picture/Source/cham.png")
         );
     }
 

@@ -2,10 +2,11 @@ package thegame.level;
 
 import java.awt.*;
 import java.io.*;
-import thegame.object.ball.NormalBall;
-import thegame.power.*;
 import java.util.ArrayList;
+import thegame.animation.CollideAnimation;
+import thegame.object.ball.NormalBall;
 import thegame.object.brick.*;
+import thegame.power.*;
 
 public class Level2 extends BaseLevel {
 
@@ -81,7 +82,7 @@ public class Level2 extends BaseLevel {
 
             for (Brick brick : bricks) {
                 if (!brick.isDestroyed() && ballRect.intersects(brick.getBounds())) {
-                    ball.bounceOnBrick(brick.getBounds());
+                    ball.bounceOnBrick(brick);
 
                     // xử lý theo từng loại
                     if (brick instanceof UnbreakableBrick) {
@@ -90,20 +91,34 @@ public class Level2 extends BaseLevel {
                         brick.hit();
 
                         if (brick instanceof StrongBrick) {
-                            if (brick.isDestroyed()) addScore(15);
+                            if (brick.isDestroyed()) {
+                                addScore(15);
+                                CollideAnimation.playAddScore();
+                            }
                         } else {
                             addScore(10);
+                            CollideAnimation.playAddScore();
                         }
 
-                        // tạo PowerUp ngẫu nhiên khi gạch vỡ
-                        if (brick.isDestroyed() && Math.random() < 1) {
+                        if (brick.isDestroyed() && Math.random() < 0.3) {
                             double r = Math.random();
-                            if (r < 0.33) {
+                            if (r < 0.25) {
                                 powerUps.add(new ExpandPaddlePowerUp(brick.x, brick.y, 20, 20));
-                            } else if (r < 0.66) {
+                            } else if (r < 0.45) {
                                 powerUps.add(new FastBallPowerUp(brick.x, brick.y, 20, 20));
-                            } else {
+                            } else if (r < 0.60) {
+                                powerUps.add(new SlowBall(brick.x, brick.y, 20, 20));
+                            } else if (r < 0.70) {
                                 powerUps.add(new TripleBallPowerUp(brick.x, brick.y));
+                            } else {
+                                double s = Math.random();
+                                int bonus;
+                                if (s < 0.4) bonus = -1000;          
+                                else if (s < 0.65) bonus = -500;    
+                                else if (s < 0.8) bonus = 100;     
+                                else if (s < 0.92) bonus = 250;   
+                                else bonus = 500;                
+                                powerUps.add(new AddScorePowerUp(brick.x, brick.y, 20, 20, bonus));
                             }
                         }
                     }
@@ -129,7 +144,6 @@ public class Level2 extends BaseLevel {
             }
         }
 
-        // cập nhật powerup
         ArrayList<PowerUp> toRemove = new ArrayList<>();
         Rectangle paddleRect = paddle.getBounds();
 
@@ -139,8 +153,13 @@ public class Level2 extends BaseLevel {
                 if (activePowerUp != null && activePowerUp.isActive()) {
                     activePowerUp.removeEffect(paddle, balls);
                 }
+                CollideAnimation.playAddScore();
                 powerUp.activate(paddle, balls);
                 activePowerUp = powerUp;
+                if (powerUp instanceof AddScorePowerUp) {
+                    AddScorePowerUp scorePower = (AddScorePowerUp) powerUp;
+                    addScore(scorePower.getScoreBonus());
+                }
                 toRemove.add(powerUp);
             }
             if (powerUp.getY() > gameView.getHeight()) toRemove.add(powerUp);
@@ -148,7 +167,6 @@ public class Level2 extends BaseLevel {
 
         powerUps.removeAll(toRemove);
 
-        // kiểm tra thắng
         boolean allDestroyed = true;
         for (Brick brick : bricks) {
             if (!brick.isDestroyed() && !(brick instanceof UnbreakableBrick)) {
