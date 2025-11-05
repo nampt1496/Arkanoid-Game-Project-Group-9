@@ -13,22 +13,22 @@ Mỗi cấp độ sẽ có những hình xếp khác nhau, các loại gạch đ
 - 🧱 Tài nguyên: Tự thiết kế và tham khảo từ nhiều dự án Arkanoid mã nguồn mở
 ## 🚀 Hình ảnh game
 
-<figure>
+<figure style="text-align:center;">
   <img src="/screenshots/start.png" width="600">
-  <figcaption>🎬 <b>Giao diện mở đầu</b></figcaption>
+  <figcaption style="margin-top:6px;"><b>Giao diện mở đầu</b></figcaption>
 </figure>
 
-<figure>
+<figure style="text-align:center;">
   <img src="/screenshots/gameplay.png" width="600">
-  <figcaption>🎮 <b>Gameplay</b></figcaption>
+  <figcaption style="margin-top:6px;"><b>Gameplay</b></figcaption>
 </figure>
 
-<figure>
+<figure style="text-align:center;">
   <img src="/screenshots/setting.png" width="600">
-  <figcaption>⚙️ <b>Giao diện cài đặt</b></figcaption>
+  <figcaption style="margin-top:6px;"><b>Giao diện cài đặt</b></figcaption>
 </figure>
 
-<figure>
+<figure style="text-align:center;">
   <img src="/screenshots/pause.png" width="600">
-  <figcaption>⏸️ <b>Màn hình tạm dừng</b></figcaption>
+  <figcaption style="margin-top:6px;"><b>Màn hình tạm dừng</b></figcaption>
 </figure>
