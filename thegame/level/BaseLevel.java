@@ -200,7 +200,7 @@ public class BaseLevel {
                 ball.bounceOnBrick(collided.getBounds());
                 addScore("Toan".equals(player.getName()) ? 100 : 10);
 
-                if (collided.isDestroyed() && Math.random() < 0.8) {
+                if (collided.isDestroyed() && Math.random() < 0.1) {
                     double r = Math.random();
                     int powerX = collided.x + collided.width / 2 - 10;
                     int powerY = collided.y;

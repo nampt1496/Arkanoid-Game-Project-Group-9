@@ -150,7 +150,7 @@ public class GameView extends JPanel {
         g2.drawString("Player: " + baseLevel.getPlayer().getName(), 25, 30);
 
         g2.setColor(Color.WHITE);
-        g2.drawString("NOTICE: you can press ESC to PAUSE (38)" , 210, 30);
+        g2.drawString("NOTICE: you can press ESC to PAUSE (51)" , 210, 30);
 
         g2.setColor(Color.RED);
         g2.drawString("Score: " + baseLevel.getScore(), 25, 60);
