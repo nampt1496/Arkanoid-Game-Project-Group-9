@@ -25,7 +25,7 @@ Mỗi cấp độ sẽ có những hình xếp khác nhau, các loại gạch đ
 
 <p align="center">
   <b>Giao diện chọn level</b><br>
-  <img src="/screenshots/level.png" width="600">
+  <img src="/screenshots/levell.png" width="600">
 </p>
 
 <p align="center">
