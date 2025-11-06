@@ -24,6 +24,11 @@ Mỗi cấp độ sẽ có những hình xếp khác nhau, các loại gạch đ
 </p>
 
 <p align="center">
+  <b>Giao diện chọn level</b><br>
+  <img src="/screenshots/level.png" width="600">
+</p>
+
+<p align="center">
   <b>Giao diện gameplay</b><br>
   <img src="/screenshots/gameplay.png" width="600">
 </p>
