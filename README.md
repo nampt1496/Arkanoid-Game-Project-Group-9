@@ -13,8 +13,13 @@ Mỗi cấp độ sẽ có những hình xếp khác nhau, các loại gạch đ
 - 🧱 Tài nguyên: Tự thiết kế và tham khảo từ nhiều dự án Arkanoid mã nguồn mở
 ## 🎥 Video Gameplay
 <p align="center">
-  
+  <video width="600" controls>
+    <source src="/screenshots/video gameplay.mp4" type="video/mp4">
+    Trình duyệt của bạn không hỗ trợ phát video.
+  </video><br>
+  <b>Video Gameplay</b>
 </p>
+    
 ## 🚀 Hình ảnh game
 
 <p align="center">
