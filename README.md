@@ -11,6 +11,10 @@ Mỗi cấp độ sẽ có những hình xếp khác nhau, các loại gạch đ
 - 🎨 Thư viện: Java Swing, AWT
 - ⚙️ IDE: IntelliJ IDEA / NetBeans / VS Code
 - 🧱 Tài nguyên: Tự thiết kế và tham khảo từ nhiều dự án Arkanoid mã nguồn mở
+## 🎥 Video Gameplay
+<p align="center">
+  
+</p>
 ## 🚀 Hình ảnh game
 
 <p align="center">
