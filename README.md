@@ -12,7 +12,7 @@ Mỗi cấp độ sẽ có những hình xếp khác nhau, các loại gạch đ
 - ⚙️ IDE: IntelliJ IDEA / NetBeans / VS Code
 - 🧱 Tài nguyên: Tự thiết kế và tham khảo từ nhiều dự án Arkanoid mã nguồn mở
 ## 🎥 Video Gameplay  
-👉 [Nhấn vào đây để xem video](/screenshots/video gameplay.mp4)
+👉 [Nhấn vào đây để xem video](https://lstwr.com/arkanoid)
 
     
 ## 🚀 Hình ảnh game
